@@ -1,125 +1,147 @@
-html{
-    background:lightgrey;
+html {
+    background: lightgrey;
 }
-#blueprint{
+
+#blueprint {
     position: absolute;
-    display:none;
-    top:50px;
-    left:220px;
-    height:300px;
-    width:400px;
-    border:2px solid black;
-    z-index:9999;
+    display: none;
+    top: 50px;
+    left: 220px;
+    height: 300px;
+    width: 400px;
+    border: 2px solid black;
+    z-index: 9999;
     opacity: 1;
     text-align: center;
-    background:black;
+    background: black;
 }
-#blueprint textarea{
-    width:98%;
-    height:90%;
+
+#blueprint textarea {
+    width: 98%;
+    height: 90%;
 }
-#menu{
+
+#menu {
     position: absolute;
-    top:2px;
-    left:2px;
-    height:44px;
-    width: 192px;   
-    border:2px solid black;
+    top: 2px;
+    left: 2px;
+    height: 44px;
+    width: 192px;
+    border: 2px solid black;
     text-align: center;
 }
 
-#sidebar{
+#sidebar {
     position: absolute;
-    top:252px;
-    left:2px;
-    bottom:2px;
-    width:192px;
-    border:2px solid black;
-    overflow-y:scroll;
-}
-#preview{
-    position:absolute;
-    top:53px;
-    left:2px;
-    height:172px;
-    width:172px;
-    border:2px solid black;
-    vertical-align: middle;
-    padding:10px;
-}
-#preview > div{
-    
-    position: absolute;
-    //top: 50%;
-    //left: 50%;
-    //padding: 200px 200px 200px 200px;
-    
+    top: 252px;
+    left: 2px;
+    bottom: 2px;
+    width: 192px;
+    border: 2px solid black;
+    overflow-y: scroll;
 }
 
-#grid{
+#preview {
     position: absolute;
-    top:2px;
-    left:202px;
-    //border:2px solid black;
+    top: 53px;
+    left: 2px;
+    height: 172px;
+    width: 172px;
+    border: 2px solid black;
+    vertical-align: middle;
+    padding: 10px;
 }
+
+#preview > div {
+
+    position: absolute;
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*padding: 200px 200px 200px 200px;*/
+
+}
+
+#grid {
+    position: absolute;
+    top: 2px;
+    left: 202px;
+    /*border:2px solid black;*/
+}
+
 /* .item-row {
-    //display: inline-block;
+    display: inline-block;
     clear:both;
     float: left;
     width:160px;
 
 } */
-.item{
+.item {
     float: left;
     border: 1px solid black;
     height: 30px;
     width: 30px;
 }
-.item:hover{
+
+.item:hover {
     border: 1px solid yellow;
 
 }
-.activeitem{
-    border : 1px solid yellow;
+
+.activeitem {
+    border: 1px solid yellow;
     box-shadow: 2px 2px 1px yellow;
     -webkit-box-shadow: 2px 2px 1px yellow;
     -moz-box-shadow: 2px 2px 1px yellow;
 }
+
 .row {
-    //display: inline-block;
-    clear:both;
+    /*display: inline-block;*/
+    clear: both;
     float: left;
-    width:1400px;
+    width: 1400px;
 
 }
-.tile{
+
+.tile {
     float: left;
     border: 1px solid black;
     height: 30px;
     width: 30px;
+    user-select: none;
 }
-.tile:hover{
+
+.tile:hover {
     border: 1px solid yellow;
 
 }
-.tile>div{
-    position:relative;
-    top:0;
-    left:0;
+
+.tile > div {
+    position: relative;
+    top: 0;
+    left: 0;
     border: 1px solid black;
     z-index: 9998;
 }
-.tile>div:hover{
+
+.tile > div:hover {
     border: 1px solid yellow;
 }
 
+.tile img,
+#preview img {
+    image-rendering: pixelated;
+}
 
+.tile img {
+    pointer-events: none;
+}
 
-.placedimage{
+.placedimage {
     width: 100%;
     height: 100%;
 }
-.rotation2{
-    -moz-transform:     rotate(90deg);
-    -webkit-transform:  rotate(90deg);
+
+.rotation2 {
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
 }
