@@ -330,11 +330,47 @@ function tileClick() {
             y -= 1;
         }
         document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]').click();
-    } else {
+    } else if (!isBlocked(previewdiv.dataset.name, this.dataset.x, this.dataset.y)) {
         previewdiv.setAttribute("data-x", this.dataset.x);
         previewdiv.setAttribute("data-y", this.dataset.y);
         previewdiv.setAttribute("class", "entity");
         this.appendChild(previewdiv);
+    }
+}
+
+function isBlocked(name, x, y) {
+    var data = getPlaceableData(name);
+    for (var i = 0; i < data[3]; i++) {
+        for (var j = 0; j < data[4]; j++) {
+            var existingPlaceable = getPlaceableAt(+x + i, +y + j)
+            if (existingPlaceable) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function getPlaceableData(name) {
+    for (var i in placeable) {
+        if (placeable[i][0].startsWith(name)) {
+            return placeable[i];
+        }
+    }
+}
+
+function getPlaceableAt(x, y) {
+    for (var i = -9; i <= x; i++) {
+        for (var j = -9; j <= y; j++) {
+            var tile = document.querySelector("[data-x='" + i + "'][data-y='" + j + "']");
+            if (!tile || !tile.innerHTML) {
+                continue;
+            }
+            var data = getPlaceableData(tile.children[0].dataset.name);
+            if (data && data[3] + i > x && data[4] + j > y) {
+                return data[0];
+            }
+        }
     }
 }
 
