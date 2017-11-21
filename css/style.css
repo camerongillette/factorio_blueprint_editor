@@ -1,0 +1,125 @@
+html{
+    background:lightgrey;
+}
+#blueprint{
+    position: absolute;
+    display:none;
+    top:50px;
+    left:220px;
+    height:300px;
+    width:400px;
+    border:2px solid black;
+    z-index:9999;
+    opacity: 1;
+    text-align: center;
+    background:black;
+}
+#blueprint textarea{
+    width:98%;
+    height:90%;
+}
+#menu{
+    position: absolute;
+    top:2px;
+    left:2px;
+    height:44px;
+    width: 192px;   
+    border:2px solid black;
+    text-align: center;
+}
+
+#sidebar{
+    position: absolute;
+    top:252px;
+    left:2px;
+    bottom:2px;
+    width:192px;
+    border:2px solid black;
+    overflow-y:scroll;
+}
+#preview{
+    position:absolute;
+    top:53px;
+    left:2px;
+    height:172px;
+    width:172px;
+    border:2px solid black;
+    vertical-align: middle;
+    padding:10px;
+}
+#preview > div{
+    
+    position: absolute;
+    //top: 50%;
+    //left: 50%;
+    //padding: 200px 200px 200px 200px;
+    
+}
+
+#grid{
+    position: absolute;
+    top:2px;
+    left:202px;
+    //border:2px solid black;
+}
+/* .item-row {
+    //display: inline-block;
+    clear:both;
+    float: left;
+    width:160px;
+
+} */
+.item{
+    float: left;
+    border: 1px solid black;
+    height: 30px;
+    width: 30px;
+}
+.item:hover{
+    border: 1px solid yellow;
+
+}
+.activeitem{
+    border : 1px solid yellow;
+    box-shadow: 2px 2px 1px yellow;
+    -webkit-box-shadow: 2px 2px 1px yellow;
+    -moz-box-shadow: 2px 2px 1px yellow;
+}
+.row {
+    //display: inline-block;
+    clear:both;
+    float: left;
+    width:1400px;
+
+}
+.tile{
+    float: left;
+    border: 1px solid black;
+    height: 30px;
+    width: 30px;
+}
+.tile:hover{
+    border: 1px solid yellow;
+
+}
+.tile>div{
+    position:relative;
+    top:0;
+    left:0;
+    border: 1px solid black;
+    z-index: 9998;
+}
+.tile>div:hover{
+    border: 1px solid yellow;
+}
+
+
+
+.placedimage{
+    width: 100%;
+    height: 100%;
+}
+.rotation2{
+    -moz-transform:     rotate(90deg);
+    -webkit-transform:  rotate(90deg);
+}
