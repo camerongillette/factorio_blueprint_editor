@@ -23,17 +23,20 @@ html {
 
 #menu {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;   
     top: 2px;
     left: 2px;
-    height: 44px;
+    height: 78px;
     width: 192px;
     border: 2px solid black;
-    text-align: center;
 }
 
 #sidebar {
     position: absolute;
-    top: 252px;
+    top: 282px;
     left: 2px;
     bottom: 2px;
     width: 192px;
@@ -43,7 +46,7 @@ html {
 
 #preview {
     position: absolute;
-    top: 53px;
+    top: 85px;
     left: 2px;
     height: 172px;
     width: 172px;

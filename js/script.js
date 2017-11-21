@@ -273,6 +273,11 @@ function createTiles() {
     }
 }
 
+function clearGrid(){
+    document.getElementById("grid").innerHTML = "";
+    createTiles();
+}
+
 function createItems() {
     var grid = document.getElementById("sidebar");
     var url;
