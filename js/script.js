@@ -4,14 +4,11 @@ window.onload = function () {
         console.log(key);
         if (key === 114) { // 114 is r
             rotatePreview();
-
-
         }
     });
     createItems();
     createTiles();
 };
-
 
 var placeable = [
     ["assembling-machine-1.png", 1, 0, 3, 3],
@@ -22,7 +19,6 @@ var placeable = [
     ["beacon.png", 0, 0, 3, 3],
     ["roboport.png", 0, 0, 4, 4],
     ["lab.png", 0, 0, 3, 3],
-
     ["transport-belt.png", 1, 0, 1, 1],
     ["i-underground-belt.png", 1, 2, 1, 1],
     ["o-underground-belt.png", 1, 6, 1, 1],
@@ -35,11 +31,7 @@ var placeable = [
     ["i-express-underground-belt.png", 1, 2, 1, 1],
     ["o-express-underground-belt.png", 1, 6, 1, 1],
     ["express-splitter.png", 1, 4, 2, 1],
-
-
     ["burner-mining-drill.png", 1, 4, 2, 2],
-
-
     ["electric-mining-drill.png", 1, 2, 3, 3],
     ["pumpjack.png", 1, 0, 2, 2],
     ["boiler.png", 1, 2, 3, 2],
@@ -47,12 +39,9 @@ var placeable = [
     ["heat-pipe.png", 0, 0, 1, 1],
     ["pipe.png", 0, 0, 1, 1],
     ["pipe-to-ground.png", 1, 2, 1, 1],
-
     ["stone-furnace.png", 0, 0, 2, 2],
     ["steel-furnace.png", 0, 0, 2, 2],
     ["electric-furnace.png", 0, 0, 3, 3],
-
-
     ["burner-inserter.png", 1, 6, 1, 1],
     ["inserter.png", 1, 6, 1, 1],
     ["long-handed-inserter.png", 1, 6, 1, 1],
@@ -60,8 +49,6 @@ var placeable = [
     ["filter-inserter.png", 1, 6, 1, 1],
     ["stack-filter-inserter.png", 1, 6, 1, 1],
     ["stack-inserter.png", 1, 6, 1, 1],
-
-
     ["wooden-chest.png", 0, 0, 1, 1],
     ["iron-chest.png", 0, 0, 1, 1],
     ["steel-chest.png", 0, 0, 1, 1],
@@ -81,22 +68,14 @@ var placeable = [
     ["centrifuge.png", 0, 0, 3, 3],
     ["nuclear-reactor.png", 0, 0, 5, 5],
     ["offshore-pump.png", 1, 4, 2, 1],
-
-
     ["pump.png", 1, 0, 2, 1],
-
-
     ["straight-rail.png", 1, 0, 2, 2],
     ["train-stop.png", 1, 0, 2, 2],
     ["rail-chain-signal.png", 0, 0, 1, 1],
     ["rail-signal.png", 0, 0, 1, 1],
-
     ["rocket-silo.png", 0, 0, 9, 10],
-
-
     ["radar.png", 0, 0, 3, 3],
     ["stone-wall.png", 0, 0, 1, 1],
-
     ["gate.png", 2, 2, 1, 1],
     ["gun-turret.png", 0, 0, 2, 2],
     ["flamethrower-turret.png", 0, 0, 2, 2],
@@ -125,7 +104,6 @@ function createJSON() {
                     type = '"type": "output",';
                 }
                 name = name.slice(2);
-
             }
             var posx = Number(entities[i].dataset.x) + Number(entities[i].dataset.posoffsetx);
             var posy = Number(entities[i].dataset.y) + Number(entities[i].dataset.posoffsety)
@@ -138,7 +116,6 @@ function createJSON() {
                 '},' + type +
                 '"direction":' + entities[i].dataset.direction +
                 '},';
-
         }
         jsonstring = jsonstring.slice(0, -1) + '],' +
             '"item": "blueprint",' +
@@ -151,8 +128,8 @@ function createJSON() {
         document.getElementById("bp").value = encode(jsonstring);
     }
     document.getElementById("bp").select();
-
 }
+
 function closebtn() {
     document.getElementById("blueprint").style.display = "none";
 }
@@ -164,7 +141,6 @@ function copyToClipboard(text) {
     if (window.clipboardData && window.clipboardData.setData) {
         // IE specific code path to prevent textarea being shown while dialog is visible.
         return clipboardData.setData("Text", text);
-
     } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
         var textarea = document.createElement("textarea");
         textarea.textContent = text;
@@ -189,7 +165,6 @@ function copybtn() {
 function bpbtn() {
     document.getElementById("blueprint").style.display = "block";
     createJSON();
-
 }
 
 function rotatePreview() {
@@ -206,7 +181,6 @@ function rotatePreview() {
         if (w < h) {
             low = w;
             high = h;
-
         } else {
             low = h;
             high = w;
@@ -236,18 +210,13 @@ function rotatePreview() {
             offsetx = high * 16;
             offsety = high * 16;
         }
-
         console.log('rotation: ' + rotation);
         preview.setAttribute("data-direction", direction);
         preview.style.transformOrigin = offsetx + 'px ' + offsety + 'px';
         preview.style.transform = 'rotate(' + 45 * rotation + 'deg)';
-
-
         //div.style.width= w*32-2 +"px";
         //div.style.height= h*32-2 +"px";
-
     }
-
 }
 
 function createPreview(url, r, direction, w, h) {
@@ -277,8 +246,8 @@ function createPreview(url, r, direction, w, h) {
         //return false;
     }, false);
     preview.appendChild(div);
-
 }
+
 function createTiles() {
     var grid = document.getElementById("grid");
     var row;
@@ -318,9 +287,7 @@ function createItems() {
         item.setAttribute("data-h", placeable[i][4]);
         item.addEventListener('click', itemClick);
         insertImg(item, url);
-
         grid.appendChild(item);
-
     }
 }
 
@@ -363,7 +330,6 @@ function tileClick() {
             y -= 1;
         }
         document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]').click();
-
     } else {
         previewdiv.setAttribute("data-x", this.dataset.x);
         previewdiv.setAttribute("data-y", this.dataset.y);
@@ -379,6 +345,7 @@ function tileMouseOver(event) {
         tileContextMenu.call(this);
     }
 }
+
 function insertImg(tile, url) {
     div = document.createElement("div");
     div.setAttribute("class", "itemdiv");
@@ -394,7 +361,7 @@ function encode(json) {
     console.log("string", string);
     var enc = new TextEncoder("utf-8").encode(string);
     console.log("enc", enc);
-    var zip = pako.deflate(enc, {level: 9});
+    var zip = pako.deflate(enc, { level: 9 });
     console.log("zip", zip);
     var base64 = Base64.encodeU(zip);
     var bstring = "0" + base64;
