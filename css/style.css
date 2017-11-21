@@ -46,13 +46,14 @@ html {
 
 #preview {
     position: absolute;
-    top: 85px;
+    float: left;
+    /* top: 85px;
     left: 2px;
     height: 172px;
     width: 172px;
     border: 2px solid black;
     vertical-align: middle;
-    padding: 10px;
+    padding: 10px; */
 }
 
 #preview > div {

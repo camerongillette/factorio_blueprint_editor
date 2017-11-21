@@ -296,6 +296,12 @@ function createItems() {
     }
 }
 
+function setPreviewFollow(mouseLoc){
+    var preview = document.getElementById("preview");
+    preview.style.left = (mouseLoc.pageX + 3) + "px";
+    preview.style.top = (mouseLoc.pageY + 3) + "px";
+}
+
 function itemClick() {
     createPreview(this.dataset.url, this.dataset.r, this.dataset.direction, this.dataset.w, this.dataset.h)
     setActiveItem(this);
@@ -372,3 +378,5 @@ function encode(json) {
     var bstring = "0" + base64;
     return bstring;
 }
+
+document.onmousemove = setPreviewFollow;
