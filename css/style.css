@@ -47,6 +47,8 @@ html {
 #preview {
     position: absolute;
     float: left;
+    pointer-events: none;
+    opacity: 0.75;
     /* top: 85px;
     left: 2px;
     height: 172px;

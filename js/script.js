@@ -5,6 +5,9 @@ window.onload = function () {
         if (key === 114) { // 114 is r
             rotatePreview();
         }
+        else if(key == 113){
+            clearPreview();
+        }
     });
     createItems();
     createTiles();
@@ -248,6 +251,10 @@ function createPreview(url, r, direction, w, h) {
     preview.appendChild(div);
 }
 
+function clearPreview(){
+    document.getElementById("preview").innerHTML = "";
+}
+
 function createTiles() {
     var grid = document.getElementById("grid");
     var row;
@@ -298,8 +305,8 @@ function createItems() {
 
 function setPreviewFollow(mouseLoc){
     var preview = document.getElementById("preview");
-    preview.style.left = (mouseLoc.pageX + 3) + "px";
-    preview.style.top = (mouseLoc.pageY + 3) + "px";
+    preview.style.left = (mouseLoc.pageX) + "px";
+    preview.style.top = (mouseLoc.pageY) + "px";
 }
 
 function itemClick() {
