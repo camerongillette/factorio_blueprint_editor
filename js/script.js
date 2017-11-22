@@ -1,3 +1,6 @@
+/* global pako */
+/* global Base64 */
+
 window.onload = function () {
     document.addEventListener('keypress', function (e) {
         var key = e.which || e.keyCode;
