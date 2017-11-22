@@ -95,7 +95,7 @@ var placeable = [
 function createJSON() {
     var jsonstring = '{"blueprint": {"icons": [{"signal": {"type": "item","name": "express-transport-belt"},"index": 1}],"entities": [';
     var entities = document.getElementsByClassName("entity");
-    var temp;
+
     if (entities.length == 0) {
         document.getElementById("bp").value = "Grid is empty";
     } else {
@@ -246,11 +246,6 @@ function createPreview(url, r, direction, w, h) {
     img.src = "icons/placeable/" + url;
     img.setAttribute("class", "placedimage");
     div.appendChild(img);
-    div.addEventListener('contextmenu', function (e) {
-        //e.preventDefault();
-        //alert('success!');
-        //return false;
-    }, false);
     preview.appendChild(div);
 }
 
@@ -261,7 +256,7 @@ function clearPreview(){
 function createTiles() {
     var grid = document.getElementById("grid");
     var row;
-    var col;
+
     for (var r = -9; r < 15; r++) {
         row = document.createElement("div");
         row.setAttribute("class", "row")
