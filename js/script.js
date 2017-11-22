@@ -146,7 +146,7 @@ https://stackoverflow.com/a/33928558
 function copyToClipboard(text) {
     if (window.clipboardData && window.clipboardData.setData) {
         // IE specific code path to prevent textarea being shown while dialog is visible.
-        return clipboardData.setData("Text", text);
+        return window.clipboardData.setData("Text", text);
     } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
         var textarea = document.createElement("textarea");
         textarea.textContent = text;
