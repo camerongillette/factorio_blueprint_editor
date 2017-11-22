@@ -3,12 +3,23 @@ html {
 }
 
 .factorio__container {
-    height: 500px;
+    height: 800px;
     display: grid;
     grid-template-columns: 200px auto;
     grid-template-rows: 100px 180px auto;
     grid-column-gap: 5px;
     grid-row-gap: 2px;
+}
+
+@media only screen and (max-width: 768px) {
+    .factorio__container {
+        height: 800px;
+        display: grid;
+        grid-template-columns: 100px auto;
+        grid-template-rows: 100px 180px auto;
+        grid-column-gap: 5px;
+        grid-row-gap: 2px;
+    }
 }
 
 .navbar__inner-container {
@@ -25,6 +36,18 @@ html {
     flex-direction: column;
 }
 
+@media only screen and (max-width: 425px) {
+    .navbar__actions {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+}
+
 .navbar__actions>button {
     margin: 2px 0;
 }
@@ -37,6 +60,24 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media only screen and (max-width: 425px) {
+    .navbar__preview {
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.preview__image-helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.preview__image {
+    vertical-align: middle;
 }
 
 .navbar__items {
@@ -55,17 +96,67 @@ html {
     overflow-x: hidden;
 }
 
+
+@media only screen and (max-width: 768px) {
+    .navbar__items {
+        padding: 2px;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 3;
+        grid-row-end: 4;
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-template-rows: 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px;
+        grid-column-gap: 2px;
+        grid-row-gap: 2px;
+        grid-auto-flow: row dense;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .navbar__items {
+        padding: 2px;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+        grid-template-rows: 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px;
+        grid-column-gap: 2px;
+        grid-row-gap: 2px;
+        grid-auto-flow: row dense;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+}
+
 .factorio__grid {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 1;
     grid-row-end: 4;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+@media only screen and (max-width: 425px) {
+    .factorio__grid {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 4;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
 }
 
 .factorio__blueprint-modal {
-    grid-column-start: 2;
+    grid-column-start: 0;
     grid-column-end: 3;
-    grid-row-start: 1;
+    grid-row-start: 0;
     grid-row-end: 4;
     display: none;
     height: 300px;
@@ -75,6 +166,23 @@ html {
     opacity: 1;
     text-align: center;
     background: black;
+}
+
+@media only screen and (max-width: 425px) {
+    .factorio__blueprint-modal {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 4;
+        display: none;
+        height: 300px;
+        width: 400px;
+        border: 2px solid black;
+        z-index: 9999;
+        opacity: 1;
+        text-align: center;
+        background: black;
+    }
 }
 
 .factorio__blueprint-modal textarea {
@@ -87,6 +195,7 @@ html {
     width: 30px;
     border: 1px solid rgba(0, 0, 0, 1);
     padding: 2px;
+    justify-self: center;
 }
 
 .item:hover {
@@ -95,7 +204,6 @@ html {
 
 .item__image {
     width: 100%;
-    height: 100%;
 }
 
 .activeitem {
@@ -109,7 +217,7 @@ html {
     /*display: inline-block;*/
     clear: both;
     float: left;
-    width: 1400px;
+    width: 1100px;
 }
 
 .tile {
@@ -136,11 +244,9 @@ html {
     border: 1px solid yellow;
 }
 
-
 .tile img {
     pointer-events: none;
 }
-
 
 .pixelated-image {
     image-rendering: pixelated;
@@ -151,19 +257,16 @@ html {
     -webkit-transform: rotate(90deg);
 }
 
-.scrollbar::-webkit-scrollbar-track
-{
-    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+.scrollbar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
     background-color: #F5F5F5;
 }
 
-.scrollbar::-webkit-scrollbar
-{
+.scrollbar::-webkit-scrollbar {
     width: 3px;
     background-color: #F5F5F5;
 }
 
-.scrollbar::-webkit-scrollbar-thumb
-{
+.scrollbar::-webkit-scrollbar-thumb {
     background-color: #000000;
 }

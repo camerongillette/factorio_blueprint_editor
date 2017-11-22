@@ -239,10 +239,14 @@ function createPreview(url, r, direction, w, h) {
     div.setAttribute("data-direction", direction);
     div.setAttribute("data-dirstart", direction);
 
+    
+    var span = document.createElement("span");
+    span.setAttribute("class", "preview__image-helper");
+    div.appendChild(span);
     img = document.createElement("img");
     img.src = "icons/placeable/" + url;
 
-    img.setAttribute("class", "item__image pixelated-image");
+    img.setAttribute("class", "item__image pixelated-image preview__image");
     div.appendChild(img);
     div.addEventListener('contextmenu', function (e) {
         //e.preventDefault();
