@@ -303,10 +303,10 @@ function createItems() {
     }
 }
 
-function setPreviewFollow(mouseLoc){
+function setPreviewLocation(Loc){
     var preview = document.getElementById("preview");
-    preview.style.left = (mouseLoc.pageX) + "px";
-    preview.style.top = (mouseLoc.pageY) + "px";
+    preview.style.left = (Loc.x) + "px";
+    preview.style.top = (Loc.y) + "px";
 }
 
 function itemClick() {
@@ -398,6 +398,11 @@ function tileMouseOver(event) {
     } else if (event.buttons == 2) {
         tileContextMenu.call(this);
     }
+
+    var offset = this.getBoundingClientRect();
+    var location = { x : offset.left, y : offset.top };
+    console.log(location);
+    setPreviewLocation(location);
 }
 
 function insertImg(tile, url) {
@@ -422,4 +427,4 @@ function encode(json) {
     return bstring;
 }
 
-document.onmousemove = setPreviewFollow;
+//document.onmousemove = setPreviewLocation;
