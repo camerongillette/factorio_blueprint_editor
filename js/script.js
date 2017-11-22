@@ -136,9 +136,9 @@ function createJSON() {
     document.getElementById("bp").select();
 }
 
-function closebtn() {
+window.closebtn = function () {
     document.getElementById("blueprint").style.display = "none";
-}
+};
 
 /*
 https://stackoverflow.com/a/33928558
@@ -164,14 +164,14 @@ function copyToClipboard(text) {
     }
 }
 
-function copybtn() {
+window.copybtn = function () {
     copyToClipboard(document.getElementById('bp').value);
-}
+};
 
-function bpbtn() {
+window.bpbtn = function () {
     document.getElementById("blueprint").style.display = "block";
     createJSON();
-}
+};
 
 function rotatePreview() {
     var preview = document.querySelector('#preview div');
@@ -278,10 +278,10 @@ function createTiles() {
     }
 }
 
-function clearGrid(){
+window.clearGrid = function () {
     document.getElementById("grid").innerHTML = "";
     createTiles();
-}
+};
 
 function createItems() {
     var grid = document.getElementById("sidebar");
