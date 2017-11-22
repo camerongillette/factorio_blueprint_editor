@@ -46,13 +46,9 @@ html {
 
 #preview {
     position: absolute;
-    top: 85px;
-    left: 2px;
-    height: 172px;
-    width: 172px;
-    border: 2px solid black;
-    vertical-align: middle;
-    padding: 10px;
+    float: left;
+    pointer-events: none;
+    opacity: 0.75;
 }
 
 #preview > div {

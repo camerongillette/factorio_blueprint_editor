@@ -5,6 +5,9 @@ window.onload = function () {
         if (key === 114) { // 114 is r
             rotatePreview();
         }
+        else if(key == 113){
+            clearPreview();
+        }
     });
     createItems();
     createTiles();
@@ -248,6 +251,10 @@ function createPreview(url, r, direction, w, h) {
     preview.appendChild(div);
 }
 
+function clearPreview(){
+    document.getElementById("preview").innerHTML = "";
+}
+
 function createTiles() {
     var grid = document.getElementById("grid");
     var row;
@@ -294,6 +301,12 @@ function createItems() {
         insertImg(item, url);
         grid.appendChild(item);
     }
+}
+
+function setPreviewFollow(mouseLoc){
+    var preview = document.getElementById("preview");
+    preview.style.left = (mouseLoc.pageX) + "px";
+    preview.style.top = (mouseLoc.pageY) + "px";
 }
 
 function itemClick() {
@@ -372,3 +385,5 @@ function encode(json) {
     var bstring = "0" + base64;
     return bstring;
 }
+
+document.onmousemove = setPreviewFollow;
