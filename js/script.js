@@ -241,7 +241,8 @@ function createPreview(url, r, direction, w, h) {
 
     img = document.createElement("img");
     img.src = "icons/placeable/" + url;
-    img.setAttribute("class", "placedimage");
+
+    img.setAttribute("class", "item__image pixelated-image");
     div.appendChild(img);
     div.addEventListener('contextmenu', function (e) {
         //e.preventDefault();
@@ -391,8 +392,8 @@ function getPlaceableAt(x, y) {
         }
     }
 }
-
-function tileMouseOver(event) {
+    
+    function tileMouseOver(event) {
     if (event.buttons == 1) { // Left mouse button is pressed
         tileClick.call(this);
     } else if (event.buttons == 2) {
@@ -405,7 +406,7 @@ function insertImg(tile, url) {
     div.setAttribute("class", "itemdiv");
     img = document.createElement("img");
     img.src = "icons/placeable/" + url;
-    img.setAttribute("class", "placedimage");
+    img.setAttribute("class", "item__image pixelated-image");
     div.appendChild(img);
     tile.appendChild(div);
 }
