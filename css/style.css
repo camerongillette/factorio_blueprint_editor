@@ -10,7 +10,7 @@ html {
     height: 300px;
     width: 400px;
     border: 2px solid black;
-    z-index: 9999;
+    z-index: 3;
     opacity: 1;
     text-align: center;
     background: black;
@@ -49,6 +49,7 @@ html {
     float: left;
     pointer-events: none;
     opacity: 0.75;
+    z-index: 2;
 }
 
 #preview > div {
@@ -119,7 +120,7 @@ html {
     top: 0;
     left: 0;
     border: 1px solid black;
-    z-index: 9998;
+    z-index: 1;
 }
 
 .tile > div:hover {

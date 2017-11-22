@@ -332,11 +332,11 @@ function tileContextMenu(e) {
 }
 
 function tileClick() {
-    this.innerHTML = "";
     var preview = document.getElementById("preview");
     if (preview.innerHTML == "") {
         return;
     }
+    this.innerHTML = "";
     var previewdiv = document.querySelector('#preview div').cloneNode(true);
     if ((this.dataset.x % 2 == 0 || this.dataset.y % 2 == 0) && (previewdiv.dataset.name == "straight-rail" || previewdiv.dataset.name == "train-stop")) {
         var x = this.dataset.x;
@@ -426,5 +426,3 @@ function encode(json) {
     var bstring = "0" + base64;
     return bstring;
 }
-
-//document.onmousemove = setPreviewLocation;
