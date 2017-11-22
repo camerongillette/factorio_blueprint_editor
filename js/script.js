@@ -99,7 +99,7 @@ function createJSON() {
     if (entities.length == 0) {
         document.getElementById("bp").value = "Grid is empty";
     } else {
-        for (i = 0; i < entities.length; i++) {
+        for (var i = 0; i < entities.length; i++) {
             var number = i + 1;
             var name = entities[i].dataset.name;
             var type = "";
@@ -229,7 +229,7 @@ function createPreview(url, r, direction, w, h) {
     var preview = document.getElementById("preview");
     //document.getElementsByTagName("body")[0].style.cursor = "url('icons/placeable/"+url+"'), auto";
     preview.innerHTML = "";
-    div = document.createElement("div");
+    var div = document.createElement("div");
     div.style.width = w * 32 - 2 + "px";
     div.style.height = h * 32 - 2 + "px";
     div.style.margin = "-1px 0 0 -1px";
@@ -242,7 +242,7 @@ function createPreview(url, r, direction, w, h) {
     div.setAttribute("data-direction", direction);
     div.setAttribute("data-dirstart", direction);
 
-    img = document.createElement("img");
+    var img = document.createElement("img");
     img.src = "icons/placeable/" + url;
     img.setAttribute("class", "placedimage");
     div.appendChild(img);
@@ -262,11 +262,11 @@ function createTiles() {
     var grid = document.getElementById("grid");
     var row;
     var col;
-    for (r = -9; r < 15; r++) {
+    for (var r = -9; r < 15; r++) {
         row = document.createElement("div");
         row.setAttribute("class", "row")
-        for (d = -9; d < 25; d++) {
-            tile = document.createElement("div");
+        for (var d = -9; d < 25; d++) {
+            var tile = document.createElement("div");
             tile.setAttribute("data-x", d);
             tile.setAttribute("data-y", r);
             tile.setAttribute("data-status", 0);
@@ -291,8 +291,8 @@ function clearGrid(){
 function createItems() {
     var grid = document.getElementById("sidebar");
     var url;
-    for (i = 0; i < placeable.length; i++) {
-        item = document.createElement("div");
+    for (var i = 0; i < placeable.length; i++) {
+        var item = document.createElement("div");
         item.setAttribute("class", "item");
         url = placeable[i][0];
         item.setAttribute("data-url", url);
@@ -320,7 +320,7 @@ function itemClick() {
 function setActiveItem(item) {
     var active = document.querySelectorAll('.activeitem')
     if (active.length > 0) {
-        for (i = 0; i < active.length; i++) {
+        for (var i = 0; i < active.length; i++) {
             active[i].classList.remove("activeitem");
         }
     }
@@ -404,9 +404,9 @@ function tileMouseOver(event) {
 }
 
 function insertImg(tile, url) {
-    div = document.createElement("div");
+    var div = document.createElement("div");
     div.setAttribute("class", "itemdiv");
-    img = document.createElement("img");
+    var img = document.createElement("img");
     img.src = "icons/placeable/" + url;
     img.setAttribute("class", "placedimage");
     div.appendChild(img);
