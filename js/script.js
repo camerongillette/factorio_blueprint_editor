@@ -401,7 +401,6 @@ function tileMouseOver(event) {
 
     var offset = this.getBoundingClientRect();
     var location = { x : offset.left, y : offset.top };
-    console.log(location);
     setPreviewLocation(location);
 }
 
