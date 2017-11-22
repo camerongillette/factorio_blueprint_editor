@@ -112,7 +112,7 @@ function createJSON() {
                 name = name.slice(2);
             }
             var posx = Number(entities[i].dataset.x) + Number(entities[i].dataset.posoffsetx);
-            var posy = Number(entities[i].dataset.y) + Number(entities[i].dataset.posoffsety)
+            var posy = Number(entities[i].dataset.y) + Number(entities[i].dataset.posoffsety);
             jsonstring = jsonstring + '{' +
                 '"entity_number": ' + number + ',' +
                 '"name": "' + name + '",' +
@@ -191,7 +191,7 @@ function rotatePreview() {
             low = h;
             high = w;
         }
-        var temp = preview.dataset.posoffsetx
+        var temp = preview.dataset.posoffsetx;
         preview.dataset.posoffsetx = preview.dataset.posoffsety;
         preview.dataset.posoffsety = temp;
         var offsetx;
@@ -259,7 +259,7 @@ function createTiles() {
 
     for (var r = -9; r < 15; r++) {
         row = document.createElement("div");
-        row.setAttribute("class", "row")
+        row.setAttribute("class", "row");
         for (var d = -9; d < 25; d++) {
             var tile = document.createElement("div");
             tile.setAttribute("data-x", d);
@@ -308,12 +308,12 @@ function setPreviewFollow(mouseLoc){
 }
 
 function itemClick() {
-    createPreview(this.dataset.url, this.dataset.r, this.dataset.direction, this.dataset.w, this.dataset.h)
+    createPreview(this.dataset.url, this.dataset.r, this.dataset.direction, this.dataset.w, this.dataset.h);
     setActiveItem(this);
 }
 
 function setActiveItem(item) {
-    var active = document.querySelectorAll('.activeitem')
+    var active = document.querySelectorAll('.activeitem');
     if (active.length > 0) {
         for (var i = 0; i < active.length; i++) {
             active[i].classList.remove("activeitem");
@@ -358,7 +358,7 @@ function isBlocked(name, x, y) {
     var data = getPlaceableData(name);
     for (var i = 0; i < data[3]; i++) {
         for (var j = 0; j < data[4]; j++) {
-            var existingPlaceable = getPlaceableAt(+x + i, +y + j)
+            var existingPlaceable = getPlaceableAt(+x + i, +y + j);
             if (existingPlaceable) {
                 return true;
             }
