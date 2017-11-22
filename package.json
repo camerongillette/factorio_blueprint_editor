@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/camerongillette/factorio_blueprint_editor/issues"
   },
-  "homepage": "https://github.com/camerongillette/factorio_blueprint_editor#readme"
+  "homepage": "https://github.com/camerongillette/factorio_blueprint_editor#readme",
+  "devDependencies": {
+    "eslint": "^4.11.0"
+  }
 }
