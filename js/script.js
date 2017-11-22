@@ -397,7 +397,7 @@ function getPlaceableAt(x, y) {
     }
 }
     
-    function tileMouseOver(event) {
+function tileMouseOver(event) {
     if (event.buttons == 1) { // Left mouse button is pressed
         tileClick.call(this);
     } else if (event.buttons == 2) {
