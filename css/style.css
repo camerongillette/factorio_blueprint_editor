@@ -59,14 +59,19 @@ html {
     grid-row-end: 3;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center;       
+    position: absolute;
+    float: left;
+    pointer-events: none;
+    opacity: 0.75;
+    z-index: 2;
 }
 
 @media only screen and (max-width: 425px) {
     .navbar__preview {
         display: none;
         justify-content: center;
-        align-items: center;
+        align-items: center;    
     }
 }
 
@@ -94,14 +99,6 @@ html {
     grid-auto-flow: row dense;
     overflow-y: scroll;
     overflow-x: hidden;
-}
-
-#preview {
-    position: absolute;
-    float: left;
-    pointer-events: none;
-    opacity: 0.75;
-    z-index: 2;
 }
 
 @media only screen and (max-width: 768px) {
