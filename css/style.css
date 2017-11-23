@@ -2,46 +2,98 @@ html {
     background: lightgrey;
 }
 
-#blueprint {
-    position: absolute;
-    display: none;
-    top: 50px;
-    left: 220px;
-    height: 300px;
-    width: 400px;
+.factorio__container {
+    height: 800px;
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-template-rows: 100px 180px auto;
+    grid-column-gap: 5px;
+    grid-row-gap: 2px;
+}
+
+@media only screen and (max-width: 768px) {
+    .factorio__container {
+        height: 800px;
+        display: grid;
+        grid-template-columns: 100px auto;
+        grid-template-rows: 100px 180px auto;
+        grid-column-gap: 5px;
+        grid-row-gap: 2px;
+    }
+}
+
+.navbar__inner-container {
     border: 2px solid black;
-    z-index: 3;
-    opacity: 1;
-    text-align: center;
-    background: black;
 }
 
-#blueprint textarea {
-    width: 98%;
-    height: 90%;
-}
-
-#menu {
-    position: absolute;
+.navbar__actions {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
     display: flex;
+    justify-content: center;
     flex-direction: column;
-    justify-content: space-around;
-    align-items: center;   
-    top: 2px;
-    left: 2px;
-    height: 78px;
-    width: 192px;
-    border: 2px solid black;
 }
 
-#sidebar {
-    position: absolute;
-    top: 282px;
-    left: 2px;
-    bottom: 2px;
-    width: 192px;
-    border: 2px solid black;
+@media only screen and (max-width: 425px) {
+    .navbar__actions {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+}
+
+.navbar__actions>button {
+    margin: 2px 0;
+}
+
+.navbar__preview {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 425px) {
+    .navbar__preview {
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.preview__image-helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.preview__image {
+    vertical-align: middle;
+}
+
+.navbar__items {
+    padding: 2px;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    grid-template-rows: 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px;
+    grid-column-gap: 2px;
+    grid-row-gap: 2px;
+    grid-auto-flow: row dense;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #preview {
@@ -52,54 +104,127 @@ html {
     z-index: 2;
 }
 
-#preview > div {
-
-    position: absolute;
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*padding: 200px 200px 200px 200px;*/
-
+@media only screen and (max-width: 768px) {
+    .navbar__items {
+        padding: 2px;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 3;
+        grid-row-end: 4;
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-template-rows: 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px;
+        grid-column-gap: 2px;
+        grid-row-gap: 2px;
+        grid-auto-flow: row dense;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 }
 
-#grid {
-    position: absolute;
-    top: 2px;
-    left: 202px;
-    /*border:2px solid black;*/
+@media only screen and (max-width: 425px) {
+    .navbar__items {
+        padding: 2px;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+        grid-template-rows: 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px 36px;
+        grid-column-gap: 2px;
+        grid-row-gap: 2px;
+        grid-auto-flow: row dense;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 }
 
-/* .item-row {
-    display: inline-block;
-    clear:both;
-    float: left;
-    width:160px;
+.factorio__grid {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    overflow-y: auto;
+    overflow-x: auto;
+}
 
-} */
+@media only screen and (max-width: 425px) {
+    .factorio__grid {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 4;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+}
+
+.factorio__blueprint-modal {
+    grid-column-start: 0;
+    grid-column-end: 3;
+    grid-row-start: 0;
+    grid-row-end: 4;
+    display: none;
+    height: 300px;
+    width: 400px;
+    border: 2px solid black;
+    z-index: 9999;
+    opacity: 1;
+    text-align: center;
+    background: black;
+}
+
+@media only screen and (max-width: 425px) {
+    .factorio__blueprint-modal {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 4;
+        display: none;
+        height: 300px;
+        width: 400px;
+        border: 2px solid black;
+        z-index: 9999;
+        opacity: 1;
+        text-align: center;
+        background: black;
+    }
+}
+
+.factorio__blueprint-modal textarea {
+    width: 98%;
+    height: 90%;
+}
+
 .item {
-    float: left;
-    border: 1px solid black;
     height: 30px;
     width: 30px;
+    border: 1px solid rgba(0, 0, 0, 1);
+    padding: 2px;
+    justify-self: center;
 }
 
 .item:hover {
-    border: 1px solid yellow;
+    border: 1px solid red;
+}
 
+.item__image {
+    width: 100%;
 }
 
 .activeitem {
     border: 1px solid yellow;
-    box-shadow: 2px 2px 1px yellow;
-    -webkit-box-shadow: 2px 2px 1px yellow;
-    -moz-box-shadow: 2px 2px 1px yellow;
+    box-shadow: 0px 0px 15px yellow;
+    -webkit-box-shadow: 0px 0px 15px yellow;
+    -moz-box-shadow: 0px 0px 15px yellow;
 }
 
 .row {
     /*display: inline-block;*/
     clear: both;
     float: left;
-    width: 1400px;
-
+    width: 1100px;
 }
 
 .tile {
@@ -112,10 +237,9 @@ html {
 
 .tile:hover {
     border: 1px solid yellow;
-
 }
 
-.tile > div {
+.tile>div {
     position: relative;
     top: 0;
     left: 0;
@@ -123,25 +247,33 @@ html {
     z-index: 1;
 }
 
-.tile > div:hover {
+.tile>div:hover {
     border: 1px solid yellow;
-}
-
-.tile img,
-#preview img {
-    image-rendering: pixelated;
 }
 
 .tile img {
     pointer-events: none;
 }
 
-.placedimage {
-    width: 100%;
-    height: 100%;
+.pixelated-image {
+    image-rendering: pixelated;
 }
 
 .rotation2 {
     -moz-transform: rotate(90deg);
     -webkit-transform: rotate(90deg);
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 3px;
+    background-color: #F5F5F5;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: #000000;
 }

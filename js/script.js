@@ -239,9 +239,14 @@ function createPreview(url, r, direction, w, h) {
     div.setAttribute("data-direction", direction);
     div.setAttribute("data-dirstart", direction);
 
+    
+    var span = document.createElement("span");
+    span.setAttribute("class", "preview__image-helper");
+    div.appendChild(span);
     img = document.createElement("img");
     img.src = "icons/placeable/" + url;
-    img.setAttribute("class", "placedimage");
+
+    img.setAttribute("class", "item__image pixelated-image preview__image");
     div.appendChild(img);
     div.addEventListener('contextmenu', function (e) {
         //e.preventDefault();
@@ -391,7 +396,7 @@ function getPlaceableAt(x, y) {
         }
     }
 }
-
+    
 function tileMouseOver(event) {
     if (event.buttons == 1) { // Left mouse button is pressed
         tileClick.call(this);
@@ -409,7 +414,7 @@ function insertImg(tile, url) {
     div.setAttribute("class", "itemdiv");
     img = document.createElement("img");
     img.src = "icons/placeable/" + url;
-    img.setAttribute("class", "placedimage");
+    img.setAttribute("class", "item__image pixelated-image");
     div.appendChild(img);
     tile.appendChild(div);
 }
