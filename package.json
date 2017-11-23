@@ -16,7 +16,18 @@
     "Blueprints",
     "Tool"
   ],
-  "author": "camerongillette, Elxeno",
+  "author": {
+    "name": "Elxeno" 
+  },
+  "contributors": [
+    { "name": "Armienn" },
+    { "name": "camerongillette" },
+    { "name": "Fruch6807" },
+    { "name": "lessthantrue" },
+    { "name": "MarcProe" },
+    { "name": "ryepup" },
+    { "name": "SpyMaster356" }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/camerongillette/factorio_blueprint_editor/issues"
