@@ -11,6 +11,12 @@ window.onload = function () {
     });
     createItems();
     createTiles();
+    // https://stackoverflow.com/questions/1586330/access-get-directly-from-javascript#1586333
+    window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
+    if($_GET.id != undefined){
+        getFromMyJSON($_GET.id);
+        console.log($_GET.id);
+    }
 };
 
 var placeable = [
@@ -94,7 +100,7 @@ function createJSON() {
     var entities = document.getElementsByClassName("entity");
     var temp;
     if (entities.length == 0) {
-        document.getElementById("bp").value = "Grid is empty";
+        return "";
     } else {
         for (i = 0; i < entities.length; i++) {
             var number = i + 1;
@@ -126,11 +132,120 @@ function createJSON() {
             '}' +
             '}';
         console.log('jsonstring ' + jsonstring);
-        var json = JSON.parse(jsonstring);
-        console.log(json);
-        document.getElementById("bp").value = encode(jsonstring);
+        return jsonstring;
     }
-    document.getElementById("bp").select();
+    
+}
+
+function createEntitiesFromJSON(jsonobj){
+    var entities = jsonobj.blueprint.entities;
+    var items = document.querySelectorAll('#sidebar div'); 
+    console.log(entities.length);
+    console.log(entities);
+    for (ent = 0; ent < entities.length; ent++){
+        var name = entities[ent].name;
+        var type = entities[ent].type;
+        if (type == "input"){
+            name = "i-" + name;
+        }else if (type == "output"){
+            name = "o-" + name;
+        }
+        for (j = 0; j < items.length; j++){
+            if(items[j].dataset.url == name+".png"){
+                items[j].click();
+                var direction = entities[ent].direction || 0;
+                var rotations = (direction - Number(items[j].dataset.dirstart))/2;
+                if(rotations < 0){
+                    rotations = rotations + 4;
+                }
+                for (k = 0; k < rotations; k++){
+                    rotatePreview();
+                }
+                var preview = document.querySelector('#preview div');
+                var offsetx = Number(preview.dataset.posoffsetx);
+                var offsety = Number(preview.dataset.posoffsety);
+                var tilex = entities[ent].position.x - offsetx;
+                var tiley = entities[ent].position.y - offsety;
+                //console.log(tilex);
+                //console.log(tiley);
+                document.querySelector('[data-x="' + Math.floor(tilex) + '"][data-y="' + Math.floor(tiley) + '"]').click();
+                break;
+            }
+        }
+    }
+}
+
+// https://stackoverflow.com/questions/5999118/how-can-i-add-or-update-a-query-string-parameter
+function UpdateQueryString(key, value, url) {
+    if (!url) url = window.location.href;
+    var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
+        hash;
+
+    if (re.test(url)) {
+        if (typeof value !== 'undefined' && value !== null)
+            return url.replace(re, '$1' + key + "=" + value + '$2$3');
+        else {
+            hash = url.split('#');
+            url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+            if (typeof hash[1] !== 'undefined' && hash[1] !== null) 
+                url += '#' + hash[1];
+            return url;
+        }
+    }
+    else {
+        if (typeof value !== 'undefined' && value !== null) {
+            var separator = url.indexOf('?') !== -1 ? '&' : '?';
+            hash = url.split('#');
+            url = hash[0] + separator + key + '=' + value;
+            if (typeof hash[1] !== 'undefined' && hash[1] !== null) 
+                url += '#' + hash[1];
+            return url;
+        }
+        else
+            return url;
+    }
+}
+
+function sendToMyJSON(jsonstring){
+    var http = new XMLHttpRequest();
+    var url = "https://api.myjson.com/bins";
+    var params = jsonstring;
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-Type", "application/json");
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 201) {
+            var resp = JSON.parse(http.responseText);
+            var id = resp.uri.replace("https://api.myjson.com/bins/","");
+            console.log(id);
+            alert(UpdateQueryString("id", id));
+            
+        }
+    }
+    http.send(params);
+}
+
+function getFromMyJSON(id){
+    var http = new XMLHttpRequest();
+    var url = "https://api.myjson.com/bins/"+id;
+    http.open("GET", url, true);
+    http.setRequestHeader("Content-Type", "application/json");
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            var resp = JSON.parse(http.responseText);
+            createEntitiesFromJSON(resp);
+        }
+    }
+    http.send();
+}
+
+function savebtn() {
+    var jsonstring = createJSON();
+    if (jsonstring == ""){
+        console.log("Grid is empty");
+    } else {
+        sendToMyJSON(jsonstring);
+    }
+
 }
 
 function closebtn() {
@@ -167,7 +282,13 @@ function copybtn() {
 
 function bpbtn() {
     document.getElementById("blueprint").style.display = "block";
-    createJSON();
+    var jsonstring = createJSON();
+    if (jsonstring == ""){
+        document.getElementById("bp").value = "Grid is empty";
+    } else {
+        document.getElementById("bp").value = encode(jsonstring);
+        document.getElementById("bp").select();
+    }
 }
 
 function rotatePreview() {
@@ -315,7 +436,7 @@ function setPreviewFollow(mouseLoc){
 }
 
 function itemClick() {
-    createPreview(this.dataset.url, this.dataset.r, this.dataset.direction, this.dataset.w, this.dataset.h)
+    createPreview(this.dataset.url, Number(this.dataset.r), Number(this.dataset.direction), Number(this.dataset.w), Number(this.dataset.h));
     setActiveItem(this);
 }
 
