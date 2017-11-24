@@ -78,6 +78,8 @@ html {
 
 .preview__image {
     vertical-align: middle;
+    width: inherit;
+    height: inherit;
 }
 
 .navbar__items {
