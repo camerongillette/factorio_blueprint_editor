@@ -131,7 +131,6 @@ function createJSON() {
             '"version": 64426934272' +
             '}' +
             '}';
-        console.log('jsonstring ' + jsonstring);
         return jsonstring;
     }
     
@@ -166,8 +165,7 @@ function createEntitiesFromJSON(jsonobj){
                 var offsety = Number(preview.dataset.posoffsety);
                 var tilex = entities[ent].position.x - offsetx;
                 var tiley = entities[ent].position.y - offsety;
-                //console.log(tilex);
-                //console.log(tiley);
+                // rounded tile numbers because position or offset is wrong somewhere else.
                 document.querySelector('[data-x="' + Math.floor(tilex) + '"][data-y="' + Math.floor(tiley) + '"]').click();
                 break;
             }
@@ -216,9 +214,8 @@ function sendToMyJSON(jsonstring){
         if(http.readyState == 4 && http.status == 201) {
             var resp = JSON.parse(http.responseText);
             var id = resp.uri.replace("https://api.myjson.com/bins/","");
-            console.log(id);
+            // to show on some text field
             alert(UpdateQueryString("id", id));
-            
         }
     }
     http.send(params);
@@ -241,6 +238,7 @@ function getFromMyJSON(id){
 function savebtn() {
     var jsonstring = createJSON();
     if (jsonstring == ""){
+        //to show on some text field
         console.log("Grid is empty");
     } else {
         sendToMyJSON(jsonstring);
