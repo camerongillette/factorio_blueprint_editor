@@ -152,19 +152,21 @@ function createEntitiesFromJSON(jsonobj){
         for (j = 0; j < items.length; j++){
             if(items[j].dataset.url == name+".png"){
                 items[j].click();
-                var direction = entities[ent].direction || 0;
-                var rotations = (direction - Number(items[j].dataset.dirstart))/2;
+                var edir = entities[ent].direction || 0;
+                var rotations = Number(edir) - Number(items[j].dataset.direction);
+                console.log(name + " " + items[j].dataset.direction);
                 if(rotations < 0){
-                    rotations = rotations + 4;
+                    rotations = rotations + 8;
                 }
+                rotations = Math.round(rotations / 2);
                 for (k = 0; k < rotations; k++){
                     rotatePreview();
                 }
                 var preview = document.querySelector('#preview div');
                 var offsetx = Number(preview.dataset.posoffsetx);
                 var offsety = Number(preview.dataset.posoffsety);
-                var tilex = entities[ent].position.x - offsetx;
-                var tiley = entities[ent].position.y - offsety;
+                var tilex = Number(entities[ent].position.x) - offsetx;
+                var tiley = Number(entities[ent].position.y) - offsety;
                 // rounded tile numbers because position or offset is wrong somewhere else.
                 document.querySelector('[data-x="' + Math.floor(tilex) + '"][data-y="' + Math.floor(tiley) + '"]').click();
                 break;
@@ -434,7 +436,7 @@ function setPreviewFollow(mouseLoc){
 }
 
 function itemClick() {
-    createPreview(this.dataset.url, Number(this.dataset.r), Number(this.dataset.direction), Number(this.dataset.w), Number(this.dataset.h));
+    createPreview(this.dataset.url, this.dataset.r, this.dataset.direction, this.dataset.w, this.dataset.h);
     setActiveItem(this);
 }
 
