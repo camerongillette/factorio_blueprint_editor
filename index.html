@@ -12,9 +12,14 @@
 <body>
     <div id="container" class="factorio__container">
         <div id="blueprint" class="factorio__blueprint-modal">
-            <textarea name="" id="bp" ></textarea>
-            <button onclick="copybtn()">copy</button>
-            <button onclick="closebtn()">close</button>
+            <textarea name="" id="bp" class="modal__data"></textarea>
+            <button onclick="copybtn(event)">copy</button>
+            <button onclick="closebtn(event)">close</button>
+        </div>
+        <div id="shareURI" class="factorio__shareURI-modal">
+            <textarea name="" id="uri" class="modal__data"></textarea>
+            <button onclick="copybtn(event)">copy</button>
+            <button onclick="closebtn(event)">close</button>
         </div>
         <div id="menu" class="navbar__actions navbar__inner-container">
             <button onclick="savebtn()">Save Blueprint</button>

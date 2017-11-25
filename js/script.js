@@ -217,7 +217,10 @@ function sendToMyJSON(jsonstring){
             var resp = JSON.parse(http.responseText);
             var id = resp.uri.replace("https://api.myjson.com/bins/","");
             // to show on some text field
-            alert(UpdateQueryString("id", id));
+            //alert(UpdateQueryString("id", id));
+            document.getElementById("shareURI").style.display = "block";
+            document.getElementById("uri").value = UpdateQueryString("id", id);
+            document.getElementById("uri").select();
         }
     }
     http.send(params);
@@ -248,8 +251,8 @@ function savebtn() {
 
 }
 
-function closebtn() {
-    document.getElementById("blueprint").style.display = "none";
+function closebtn(ev) {
+    ev.target.parentElement.style.display = "none";
 }
 
 /*
@@ -276,8 +279,9 @@ function copyToClipboard(text) {
     }
 }
 
-function copybtn() {
-    copyToClipboard(document.getElementById('bp').value);
+function copybtn(ev) {
+    copyToClipboard(ev.target.parentElement.getElementsByClassName("modal__data")[0].value);
+    closebtn(ev);
 }
 
 function bpbtn() {
