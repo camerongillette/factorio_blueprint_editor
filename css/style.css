@@ -170,6 +170,21 @@ html {
     background: black;
 }
 
+.factorio__shareURI-modal {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 0;
+    grid-row-end: 4;
+    display: none;
+    height: 150px;
+    width: 200px;
+    border: 2px solid black;
+    z-index: 9999;
+    opacity: 1;
+    text-align: center;
+    background: black;
+}
+
 @media only screen and (max-width: 425px) {
     .factorio__blueprint-modal {
         grid-column-start: 2;
