@@ -14,6 +14,12 @@ window.onload = function () {
     });
     createItems();
     createTiles();
+    // https://stackoverflow.com/questions/1586330/access-get-directly-from-javascript#1586333
+    window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
+    if($_GET.id != undefined){
+        getFromMyJSON($_GET.id);
+        console.log($_GET.id);
+    }
 };
 
 var placeable = [
@@ -77,8 +83,8 @@ var placeable = [
     ["pump.png", 1, 2, 2, 1],
     ["straight-rail.png", 1, 0, 2, 2],
     ["train-stop.png", 1, 0, 2, 2],
-    ["rail-chain-signal.png", 0, 0, 1, 1],
-    ["rail-signal.png", 0, 0, 1, 1],
+    ["rail-chain-signal.png", 1, 0, 1, 1],
+    ["rail-signal.png", 1, 0, 1, 1],
     ["rocket-silo.png", 0, 0, 9, 10],
     ["radar.png", 0, 0, 3, 3],
     ["stone-wall.png", 0, 0, 1, 1],
@@ -97,7 +103,7 @@ function createJSON() {
     var entities = document.getElementsByClassName("entity");
 
     if (entities.length == 0) {
-        document.getElementById("bp").value = "Grid is empty";
+        return "";
     } else {
         for (var i = 0; i < entities.length; i++) {
             var number = i + 1;
@@ -128,17 +134,130 @@ function createJSON() {
             '"version": 64426934272' +
             '}' +
             '}';
-        console.log('jsonstring ' + jsonstring);
-        var json = JSON.parse(jsonstring);
-        console.log(json);
-        document.getElementById("bp").value = encode(jsonstring);
+        return jsonstring;
     }
-    document.getElementById("bp").select();
+    
+}
+
+function createEntitiesFromJSON(jsonobj){
+    var entities = jsonobj.blueprint.entities;
+    var items = document.querySelectorAll('#sidebar div'); 
+    console.log(entities.length);
+    console.log(entities);
+    for (ent = 0; ent < entities.length; ent++){
+        var name = entities[ent].name;
+        var type = entities[ent].type;
+        if (type == "input"){
+            name = "i-" + name;
+        }else if (type == "output"){
+            name = "o-" + name;
+        }
+        for (j = 0; j < items.length; j++){
+            if(items[j].dataset.url == name+".png"){
+                items[j].click();
+                var edir = entities[ent].direction || 0;
+                var rotations = Number(edir) - Number(items[j].dataset.direction);
+                console.log(name + " " + items[j].dataset.direction);
+                if(rotations < 0){
+                    rotations = rotations + 8;
+                }
+                rotations = Math.round(rotations / 2);
+                for (k = 0; k < rotations; k++){
+                    rotatePreview();
+                }
+                var preview = document.querySelector('#preview div');
+                var offsetx = Number(preview.dataset.posoffsetx);
+                var offsety = Number(preview.dataset.posoffsety);
+                var tilex = Number(entities[ent].position.x) - offsetx;
+                var tiley = Number(entities[ent].position.y) - offsety;
+                // rounded tile numbers because position or offset is wrong somewhere else.
+                document.querySelector('[data-x="' + Math.floor(tilex) + '"][data-y="' + Math.floor(tiley) + '"]').click();
+                break;
+            }
+        }
+    }
+}
+
+// https://stackoverflow.com/questions/5999118/how-can-i-add-or-update-a-query-string-parameter
+function UpdateQueryString(key, value, url) {
+    if (!url) url = window.location.href;
+    var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
+        hash;
+
+    if (re.test(url)) {
+        if (typeof value !== 'undefined' && value !== null)
+            return url.replace(re, '$1' + key + "=" + value + '$2$3');
+        else {
+            hash = url.split('#');
+            url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+            if (typeof hash[1] !== 'undefined' && hash[1] !== null) 
+                url += '#' + hash[1];
+            return url;
+        }
+    }
+    else {
+        if (typeof value !== 'undefined' && value !== null) {
+            var separator = url.indexOf('?') !== -1 ? '&' : '?';
+            hash = url.split('#');
+            url = hash[0] + separator + key + '=' + value;
+            if (typeof hash[1] !== 'undefined' && hash[1] !== null) 
+                url += '#' + hash[1];
+            return url;
+        }
+        else
+            return url;
+    }
+}
+
+function sendToMyJSON(jsonstring){
+    var http = new XMLHttpRequest();
+    var url = "https://api.myjson.com/bins";
+    var params = jsonstring;
+    http.open("POST", url, true);
+    http.setRequestHeader("Content-Type", "application/json");
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 201) {
+            var resp = JSON.parse(http.responseText);
+            var id = resp.uri.replace("https://api.myjson.com/bins/","");
+            // to show on some text field
+            //alert(UpdateQueryString("id", id));
+            document.getElementById("shareURI").style.display = "block";
+            document.getElementById("uri").value = UpdateQueryString("id", id);
+            document.getElementById("uri").select();
+        }
+    }
+    http.send(params);
+}
+
+function getFromMyJSON(id){
+    var http = new XMLHttpRequest();
+    var url = "https://api.myjson.com/bins/"+id;
+    http.open("GET", url, true);
+    http.setRequestHeader("Content-Type", "application/json");
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            var resp = JSON.parse(http.responseText);
+            createEntitiesFromJSON(resp);
+        }
+    }
+    http.send();
+}
+
+function savebtn() {
+    var jsonstring = createJSON();
+    if (jsonstring == ""){
+        //to show on some text field
+        console.log("Grid is empty");
+    } else {
+        sendToMyJSON(jsonstring);
+    }
+
 }
 
 window.closebtn = function () {
     document.getElementById("blueprint").style.display = "none";
 };
+
 
 /*
 https://stackoverflow.com/a/33928558
@@ -165,12 +284,19 @@ function copyToClipboard(text) {
 }
 
 window.copybtn = function () {
-    copyToClipboard(document.getElementById('bp').value);
+    copyToClipboard(ev.target.parentElement.getElementsByClassName("modal__data")[0].value);
+    closebtn(ev);
 };
 
 window.bpbtn = function () {
     document.getElementById("blueprint").style.display = "block";
-    createJSON();
+    var jsonstring = createJSON();
+    if (jsonstring == ""){
+        document.getElementById("bp").value = "Grid is empty";
+    } else {
+        document.getElementById("bp").value = encode(jsonstring);
+        document.getElementById("bp").select();
+    }
 };
 
 function rotatePreview() {
