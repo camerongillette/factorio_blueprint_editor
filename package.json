@@ -1,0 +1,39 @@
+{
+  "name": "factorio_blueprint_editor",
+  "version": "1.0.0",
+  "description": "Online Editor for Elxeno's Factorio Blueprint Editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint js/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camerongillette/factorio_blueprint_editor.git"
+  },
+  "keywords": [
+    "Factorio",
+    "Blueprints",
+    "Tool"
+  ],
+  "author": {
+    "name": "Elxeno" 
+  },
+  "contributors": [
+    { "name": "Armienn" },
+    { "name": "camerongillette" },
+    { "name": "Fruch6807" },
+    { "name": "lessthantrue" },
+    { "name": "MarcProe" },
+    { "name": "ryepup" },
+    { "name": "SpyMaster356" }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/camerongillette/factorio_blueprint_editor/issues"
+  },
+  "homepage": "https://github.com/camerongillette/factorio_blueprint_editor#readme",
+  "devDependencies": {
+    "eslint": "^4.11.0"
+  }
+}
