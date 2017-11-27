@@ -12,13 +12,19 @@ window.onload = function () {
     createItems();
     createTiles();
     // https://stackoverflow.com/questions/1586330/access-get-directly-from-javascript#1586333
-    window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
+    window.$_GET = GETfromUrl();
     if($_GET.id != undefined){
         getFromMyJSON($_GET.id);
-        console.log($_GET.id);
     }
 };
-
+function GETfromUrl(){
+    return location.search.substr(1).split("&").reduce(function(o,i){
+        u = decodeURIComponent;
+        [k,v] = i.split("=");
+        o[u(k)] = v&&u(v);
+        return o;
+    },{});
+}
 var placeable = [
     ["assembling-machine-1.png", 1, 0, 3, 3],
     ["assembling-machine-2.png", 1, 0, 3, 3],
