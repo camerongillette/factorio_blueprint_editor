@@ -21,11 +21,12 @@ window.onload = function () {
     }
 };
 function GETfromUrl(){
-    return location.search.substr(1).split("&").reduce(function(o,i){
-        var u = decodeURIComponent;
-        var entry = i.split("=");
-        o[u(entry[0])] = entry[1]&&u(entry[1]);
-        return o;
+    return location.search.substr(1).split("&").reduce(function(object,uriVal){
+        var entry = uriVal.split("=");
+        if(entry[1]){
+            object[decodeURIComponent(entry[0])] = decodeURIComponent(entry[1]);
+        }
+        return object;
     },{});
 }
 var placeable = [
@@ -249,7 +250,7 @@ function getFromMyJSON(id){
     http.send();
 }
 
-window['savebtn'] = function () {
+window.savebtn = function () {
     var jsonstring = createJSON();
     if (jsonstring == ""){
         //to show on some text field
@@ -260,9 +261,9 @@ window['savebtn'] = function () {
 
 };
 
-function closebtn() {
+window.closebtn = function () {
     document.getElementById("blueprint").style.display = "none";
-}
+};
 
 /*
 https://stackoverflow.com/a/33928558
@@ -290,7 +291,7 @@ function copyToClipboard(text) {
 
 window.copybtn = function (ev) {
     copyToClipboard(ev.target.parentElement.getElementsByClassName("modal__data")[0].value);
-    closebtn(ev);
+    window.closebtn(ev);
 };
 
 window.bpbtn = function () {
