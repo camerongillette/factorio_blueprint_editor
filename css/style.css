@@ -295,7 +295,8 @@ html {
 
 .scrollbar::-webkit-scrollbar-thumb {
     background-color: #000000;
-}
+
+
 
 footer {
     padding-top: 1rem;

@@ -29,6 +29,15 @@ function GETfromUrl(){
         return object;
     },{});
 }
+/*
+placeable[0] = image path
+placeable[1] = rotation
+placeable[2] = direction
+placeable[3] = width
+placeable[4] = height/length
+placeable[5] = mirror flipped horizontal rotation
+*/
+
 var placeable = [
     ["assembling-machine-1.png", 1, 0, 3, 3],
     ["assembling-machine-2.png", 1, 0, 3, 3],
@@ -61,13 +70,13 @@ var placeable = [
     ["stone-furnace.png", 0, 0, 2, 2],
     ["steel-furnace.png", 0, 0, 2, 2],
     ["electric-furnace.png", 0, 0, 3, 3],
-    ["burner-inserter.png", 1, 6, 1, 1],
-    ["inserter.png", 1, 6, 1, 1],
-    ["long-handed-inserter.png", 1, 6, 1, 1],
-    ["fast-inserter.png", 1, 6, 1, 1],
-    ["filter-inserter.png", 1, 6, 1, 1],
-    ["stack-filter-inserter.png", 1, 6, 1, 1],
-    ["stack-inserter.png", 1, 6, 1, 1],
+    ["burner-inserter.png", 1, 6, 1, 1, 1],
+    ["inserter.png", 1, 6, 1, 1, 1],
+    ["long-handed-inserter.png", 1, 6, 1, 1, 1],
+    ["fast-inserter.png", 1, 6, 1, 1, 1],
+    ["filter-inserter.png", 1, 6, 1, 1, 1],
+    ["stack-filter-inserter.png", 1, 6, 1, 1, 1],
+    ["stack-inserter.png", 1, 6, 1, 1, 1],
     ["wooden-chest.png", 0, 0, 1, 1],
     ["iron-chest.png", 0, 0, 1, 1],
     ["steel-chest.png", 0, 0, 1, 1],
@@ -325,10 +334,14 @@ function rotatePreview() {
     if (preview != null && preview.dataset.r != 0) {
         var direction = (Number(preview.dataset.direction) + 2) % 8;
         var dirStart = Number(preview.dataset.dirstart);
-        console.log('sadjkhkjdhs' + dirStart);
+        console.log('Direction Start' + dirStart);
         var w = (Number(preview.style.width.slice(0, -2)) + 2) / 32;
         console.log('w: ' + w);
         var h = (Number(preview.style.height.slice(0, -2)) + 2) / 32;
+        console.log('h: ' + h);
+        var mirrorFlipped = preview.dataset.mirrorflippedhorizontal;
+        console.log('mirrorFlipped: ' + mirrorFlipped);
+
         var low;
         var high;
         if (w < h) {
@@ -364,7 +377,18 @@ function rotatePreview() {
             offsety = high * 16;
         }
         console.log('rotation: ' + rotation);
+        
         preview.setAttribute("data-direction", direction);
+        
+        //Handles usecases where entity should be horizontally flipped instead of rotated, like inserters. Rotation 4 = 270 degrees
+        if(rotation == 4){
+            preview.style.transform = 'initial';
+            preview.style.transform = 'scale(-1,1)';
+        }
+        else {
+            preview.style.transform = 'rotate(' + 45 * rotation + 'deg)';
+        }
+        
         preview.style.transformOrigin = offsetx + 'px ' + offsety + 'px';
         preview.style.transform = 'rotate(' + 45 * rotation + 'deg)';
         updatePreviewCopies();
@@ -373,7 +397,7 @@ function rotatePreview() {
     }
 }
 
-function createPreview(url, r, direction, w, h) {
+function createPreview(url, r, direction, w, h, mirrorFlippedHorizontal) {
     var preview = document.getElementById("preview");
     //document.getElementsByTagName("body")[0].style.cursor = "url('icons/placeable/"+url+"'), auto";
     clearPreview();
@@ -388,6 +412,7 @@ function createPreview(url, r, direction, w, h) {
     div.setAttribute("data-posoffsetx", w / 2 - 0.5);
     div.setAttribute("data-posoffsety", h / 2 - 0.5);
     div.setAttribute("data-direction", direction);
+    div.setAttribute("data-mirrorFlippedHorizontal", mirrorFlippedHorizontal);
     div.setAttribute("data-dirstart", direction);
     
     var span = document.createElement("span");
@@ -453,6 +478,7 @@ function createItems() {
         item.setAttribute("data-direction", placeable[i][2]);
         item.setAttribute("data-w", placeable[i][3]);
         item.setAttribute("data-h", placeable[i][4]);
+        item.setAttribute("data-mirror-flipped-horizontal", (placeable[i].length == 6 && placeable[i][5] ==1));
         item.addEventListener('click', itemClick);
         insertImg(item, url);
         grid.appendChild(item);
@@ -468,7 +494,7 @@ function setPreviewLocation(Loc){
 }
 
 function itemClick() {
-    createPreview(this.dataset.url, this.dataset.r, this.dataset.direction, this.dataset.w, this.dataset.h);
+    createPreview(this.dataset.url, this.dataset.r, this.dataset.direction, this.dataset.w, this.dataset.h, this.dataset.mirrorFlippedHorizontal);
     setActiveItem(this);
 }
 
