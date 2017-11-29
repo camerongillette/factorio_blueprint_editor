@@ -83,6 +83,8 @@ html {
 
 .preview__image {
     vertical-align: middle;
+    width: inherit;
+    height: inherit;
 }
 
 .navbar__items {
@@ -165,6 +167,21 @@ html {
     display: none;
     height: 300px;
     width: 400px;
+    border: 2px solid black;
+    z-index: 9999;
+    opacity: 1;
+    text-align: center;
+    background: black;
+}
+
+.factorio__shareURI-modal {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 0;
+    grid-row-end: 4;
+    display: none;
+    height: 150px;
+    width: 200px;
     border: 2px solid black;
     z-index: 9999;
     opacity: 1;
@@ -273,4 +290,10 @@ html {
 
 .scrollbar::-webkit-scrollbar-thumb {
     background-color: #000000;
+}
+
+footer {
+    padding-top: 1rem;
+    font-size: 0.75rem;
+    color: grey; 
 }
