@@ -367,7 +367,7 @@ function rotatePreview() {
         preview.setAttribute("data-direction", direction);
         preview.style.transformOrigin = offsetx + 'px ' + offsety + 'px';
         preview.style.transform = 'rotate(' + 45 * rotation + 'deg)';
-        updatePreviewCopies()
+        updatePreviewCopies();
         //div.style.width= w*32-2 +"px";
         //div.style.height= h*32-2 +"px";
     }
@@ -399,12 +399,12 @@ function createPreview(url, r, direction, w, h) {
     img.setAttribute("class", "item__image pixelated-image preview__image");
     div.appendChild(img);
     preview.appendChild(div);
-    updatePreviewCopies()
+    updatePreviewCopies();
 }
 
 function clearPreview(){
     document.getElementById("preview").innerHTML = "";
-    updatePreviewCopies()
+    updatePreviewCopies();
 }
 
 function previewIsEmpty(){
@@ -490,7 +490,6 @@ function tileContextMenu(e) {
 }
 
 function tileClick() {
-    var preview = document.getElementById("preview");
     if (previewIsEmpty()) {
         return;
     }
