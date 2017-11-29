@@ -334,13 +334,8 @@ function rotatePreview() {
     if (preview != null && preview.dataset.r != 0) {
         var direction = (Number(preview.dataset.direction) + 2) % 8;
         var dirStart = Number(preview.dataset.dirstart);
-        console.log('Direction Start' + dirStart);
         var w = (Number(preview.style.width.slice(0, -2)) + 2) / 32;
-        console.log('w: ' + w);
         var h = (Number(preview.style.height.slice(0, -2)) + 2) / 32;
-        console.log('h: ' + h);
-        var mirrorFlipped = preview.dataset.mirrorflippedhorizontal;
-        console.log('mirrorFlipped: ' + mirrorFlipped);
 
         var low;
         var high;
@@ -376,7 +371,6 @@ function rotatePreview() {
             offsetx = high * 16;
             offsety = high * 16;
         }
-        console.log('rotation: ' + rotation);
         
         preview.setAttribute("data-direction", direction);
         
@@ -390,14 +384,18 @@ function rotatePreview() {
         }
         
         preview.style.transformOrigin = offsetx + 'px ' + offsety + 'px';
-        preview.style.transform = 'rotate(' + 45 * rotation + 'deg)';
         updatePreviewCopies();
-        //div.style.width= w*32-2 +"px";
-        //div.style.height= h*32-2 +"px";
     }
 }
 
-function createPreview(url, r, direction, w, h, mirrorFlippedHorizontal) {
+function createPreview(dataset) {
+    var url = dataset.url;
+    var r = dataset.r;
+    var direction = dataset.direction;
+    var w = dataset.w;
+    var h = dataset.h;
+    var mirrorFlippedHorizontal = dataset.mirrorFlippedHorizontal;
+    
     var preview = document.getElementById("preview");
     //document.getElementsByTagName("body")[0].style.cursor = "url('icons/placeable/"+url+"'), auto";
     clearPreview();
@@ -494,7 +492,7 @@ function setPreviewLocation(Loc){
 }
 
 function itemClick() {
-    createPreview(this.dataset.url, this.dataset.r, this.dataset.direction, this.dataset.w, this.dataset.h, this.dataset.mirrorFlippedHorizontal);
+    createPreview(this.dataset);
     setActiveItem(this);
 }
 
@@ -561,6 +559,7 @@ function getPlaceableData(name) {
 }
 
 function getPlaceableAt(x, y) {
+    //TODO : Fix these magic numbers and prevent having scan the entire board everytime a new entity is wanted to be placed
     for (var i = -9; i <= x; i++) {
         for (var j = -9; j <= y; j++) {
             var tile = document.querySelector("[data-x='" + i + "'][data-y='" + j + "']");
