@@ -378,7 +378,7 @@ function createPreview(url, r, direction, w, h) {
     span.setAttribute("class", "preview__image-helper");
     div.appendChild(span);
     var img = document.createElement("img");
-    img.src = "icons/placeable/" + url;
+    img.src = "vendor/factorio/icons/placeable/" + url;
 
     img.setAttribute("class", "item__image pixelated-image preview__image");
     div.appendChild(img);
@@ -538,7 +538,7 @@ function insertImg(tile, url) {
     var div = document.createElement("div");
     div.setAttribute("class", "itemdiv");
     var img = document.createElement("img");
-    img.src = "icons/placeable/" + url;
+    img.src = "vendor/factorio/icons/placeable/" + url;
     img.setAttribute("class", "item__image pixelated-image");
     div.appendChild(img);
     tile.appendChild(div);
