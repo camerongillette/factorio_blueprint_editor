@@ -1,3 +1,6 @@
+/* global pako */
+/* global Base64 */
+
 window.onload = function () {
     document.addEventListener('keypress', function (e) {
         var key = e.which || e.keyCode;
@@ -12,13 +15,19 @@ window.onload = function () {
     createItems();
     createTiles();
     // https://stackoverflow.com/questions/1586330/access-get-directly-from-javascript#1586333
-    window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
+    window.$_GET = GETfromUrl();
     if($_GET.id != undefined){
         getFromMyJSON($_GET.id);
-        console.log($_GET.id);
     }
 };
-
+function GETfromUrl(){
+    return location.search.substr(1).split("&").reduce(function(o,i){
+        u = decodeURIComponent;
+        [k,v] = i.split("=");
+        o[u(k)] = v&&u(v);
+        return o;
+    },{});
+}
 var placeable = [
     ["assembling-machine-1.png", 1, 0, 3, 3],
     ["assembling-machine-2.png", 1, 0, 3, 3],
@@ -98,11 +107,11 @@ var placeable = [
 function createJSON() {
     var jsonstring = '{"blueprint": {"icons": [{"signal": {"type": "item","name": "express-transport-belt"},"index": 1}],"entities": [';
     var entities = document.getElementsByClassName("entity");
-    var temp;
+
     if (entities.length == 0) {
         return "";
     } else {
-        for (i = 0; i < entities.length; i++) {
+        for (var i = 0; i < entities.length; i++) {
             var number = i + 1;
             var name = entities[i].dataset.name;
             var type = "";
@@ -115,7 +124,7 @@ function createJSON() {
                 name = name.slice(2);
             }
             var posx = Number(entities[i].dataset.x) + Number(entities[i].dataset.posoffsetx);
-            var posy = Number(entities[i].dataset.y) + Number(entities[i].dataset.posoffsety)
+            var posy = Number(entities[i].dataset.y) + Number(entities[i].dataset.posoffsety);
             jsonstring = jsonstring + '{' +
                 '"entity_number": ' + number + ',' +
                 '"name": "' + name + '",' +
@@ -251,9 +260,10 @@ function savebtn() {
 
 }
 
-function closebtn(ev) {
-    ev.target.parentElement.style.display = "none";
-}
+window.closebtn = function () {
+    document.getElementById("blueprint").style.display = "none";
+};
+
 
 /*
 https://stackoverflow.com/a/33928558
@@ -261,7 +271,7 @@ https://stackoverflow.com/a/33928558
 function copyToClipboard(text) {
     if (window.clipboardData && window.clipboardData.setData) {
         // IE specific code path to prevent textarea being shown while dialog is visible.
-        return clipboardData.setData("Text", text);
+        return window.clipboardData.setData("Text", text);
     } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
         var textarea = document.createElement("textarea");
         textarea.textContent = text;
@@ -279,12 +289,12 @@ function copyToClipboard(text) {
     }
 }
 
-function copybtn(ev) {
+window.copybtn = function () {
     copyToClipboard(ev.target.parentElement.getElementsByClassName("modal__data")[0].value);
     closebtn(ev);
-}
+};
 
-function bpbtn() {
+window.bpbtn = function () {
     document.getElementById("blueprint").style.display = "block";
     var jsonstring = createJSON();
     if (jsonstring == ""){
@@ -293,7 +303,7 @@ function bpbtn() {
         document.getElementById("bp").value = encode(jsonstring);
         document.getElementById("bp").select();
     }
-}
+};
 
 function rotatePreview() {
     var preview = document.querySelector('#preview div');
@@ -313,7 +323,7 @@ function rotatePreview() {
             low = h;
             high = w;
         }
-        var temp = preview.dataset.posoffsetx
+        var temp = preview.dataset.posoffsetx;
         preview.dataset.posoffsetx = preview.dataset.posoffsety;
         preview.dataset.posoffsety = temp;
         var offsetx;
@@ -351,7 +361,7 @@ function createPreview(url, r, direction, w, h) {
     var preview = document.getElementById("preview");
     //document.getElementsByTagName("body")[0].style.cursor = "url('icons/placeable/"+url+"'), auto";
     preview.innerHTML = "";
-    div = document.createElement("div");
+    var div = document.createElement("div");
     div.style.width = w * 32 - 2 + "px";
     div.style.height = h * 32 - 2 + "px";
     div.style.margin = "-1px 0 0 -1px";
@@ -363,21 +373,15 @@ function createPreview(url, r, direction, w, h) {
     div.setAttribute("data-posoffsety", h / 2 - 0.5);
     div.setAttribute("data-direction", direction);
     div.setAttribute("data-dirstart", direction);
-
     
     var span = document.createElement("span");
     span.setAttribute("class", "preview__image-helper");
     div.appendChild(span);
-    img = document.createElement("img");
+    var img = document.createElement("img");
     img.src = "icons/placeable/" + url;
 
     img.setAttribute("class", "item__image pixelated-image preview__image");
     div.appendChild(img);
-    div.addEventListener('contextmenu', function (e) {
-        //e.preventDefault();
-        //alert('success!');
-        //return false;
-    }, false);
     preview.appendChild(div);
 }
 
@@ -388,12 +392,12 @@ function clearPreview(){
 function createTiles() {
     var grid = document.getElementById("grid");
     var row;
-    var col;
-    for (r = -9; r < 15; r++) {
+
+    for (var r = -9; r < 15; r++) {
         row = document.createElement("div");
-        row.setAttribute("class", "row")
-        for (d = -9; d < 25; d++) {
-            tile = document.createElement("div");
+        row.setAttribute("class", "row");
+        for (var d = -9; d < 25; d++) {
+            var tile = document.createElement("div");
             tile.setAttribute("data-x", d);
             tile.setAttribute("data-y", r);
             tile.setAttribute("data-status", 0);
@@ -410,16 +414,16 @@ function createTiles() {
     }
 }
 
-function clearGrid(){
+window.clearGrid = function () {
     document.getElementById("grid").innerHTML = "";
     createTiles();
-}
+};
 
 function createItems() {
     var grid = document.getElementById("sidebar");
     var url;
-    for (i = 0; i < placeable.length; i++) {
-        item = document.createElement("div");
+    for (var i = 0; i < placeable.length; i++) {
+        var item = document.createElement("div");
         item.setAttribute("class", "item");
         url = placeable[i][0];
         item.setAttribute("data-url", url);
@@ -445,9 +449,9 @@ function itemClick() {
 }
 
 function setActiveItem(item) {
-    var active = document.querySelectorAll('.activeitem')
+    var active = document.querySelectorAll('.activeitem');
     if (active.length > 0) {
-        for (i = 0; i < active.length; i++) {
+        for (var i = 0; i < active.length; i++) {
             active[i].classList.remove("activeitem");
         }
     }
@@ -490,7 +494,7 @@ function isBlocked(name, x, y) {
     var data = getPlaceableData(name);
     for (var i = 0; i < data[3]; i++) {
         for (var j = 0; j < data[4]; j++) {
-            var existingPlaceable = getPlaceableAt(+x + i, +y + j)
+            var existingPlaceable = getPlaceableAt(+x + i, +y + j);
             if (existingPlaceable) {
                 return true;
             }
@@ -531,9 +535,9 @@ function tileMouseOver(event) {
 }
 
 function insertImg(tile, url) {
-    div = document.createElement("div");
+    var div = document.createElement("div");
     div.setAttribute("class", "itemdiv");
-    img = document.createElement("img");
+    var img = document.createElement("img");
     img.src = "icons/placeable/" + url;
     img.setAttribute("class", "item__image pixelated-image");
     div.appendChild(img);
