@@ -59,12 +59,17 @@ html {
     grid-row-end: 3;
     display: flex;
     justify-content: center;
-    align-items: center;       
-    position: absolute;
+    align-items: center;    
     float: left;
+}
+
+.mouse__follow {
+    position: absolute;
     pointer-events: none;
+}
+
+.mouse__preview {
     opacity: 0.75;
-    z-index: 2;
 }
 
 @media only screen and (max-width: 425px) {
