@@ -305,6 +305,21 @@ window.bpbtn = function () {
     }
 };
 
+function updatePreviewCopies(){
+    if(!previewIsEmpty()){
+        var staticPreview = document.querySelector('.preview__main').firstChild.cloneNode(true);
+    }
+
+    var copies = document.getElementsByClassName('preview__copy');
+    for(var i = 0; i < copies.length; i++){
+        copies[i].innerHTML = "";
+        
+        if(!previewIsEmpty()){
+            copies[i].appendChild(staticPreview);
+        }
+    }
+}
+
 function rotatePreview() {
     var preview = document.querySelector('#preview div');
     if (preview != null && preview.dataset.r != 0) {
@@ -352,6 +367,7 @@ function rotatePreview() {
         preview.setAttribute("data-direction", direction);
         preview.style.transformOrigin = offsetx + 'px ' + offsety + 'px';
         preview.style.transform = 'rotate(' + 45 * rotation + 'deg)';
+        updatePreviewCopies();
         //div.style.width= w*32-2 +"px";
         //div.style.height= h*32-2 +"px";
     }
@@ -360,7 +376,7 @@ function rotatePreview() {
 function createPreview(url, r, direction, w, h) {
     var preview = document.getElementById("preview");
     //document.getElementsByTagName("body")[0].style.cursor = "url('icons/placeable/"+url+"'), auto";
-    preview.innerHTML = "";
+    clearPreview();
     var div = document.createElement("div");
     div.style.width = w * 32 - 2 + "px";
     div.style.height = h * 32 - 2 + "px";
@@ -383,10 +399,16 @@ function createPreview(url, r, direction, w, h) {
     img.setAttribute("class", "item__image pixelated-image preview__image");
     div.appendChild(img);
     preview.appendChild(div);
+    updatePreviewCopies();
 }
 
 function clearPreview(){
     document.getElementById("preview").innerHTML = "";
+    updatePreviewCopies();
+}
+
+function previewIsEmpty(){
+    return document.getElementById("preview").innerHTML == "";
 }
 
 function createTiles() {
@@ -437,10 +459,12 @@ function createItems() {
     }
 }
 
-function setPreviewFollow(mouseLoc){
-    var preview = document.getElementById("preview");
-    preview.style.left = (mouseLoc.pageX) + "px";
-    preview.style.top = (mouseLoc.pageY) + "px";
+function setPreviewLocation(Loc){
+    var preview = document.getElementsByClassName("mouse__follow");
+    for(var i = 0; i < preview.length; i++){
+        preview[i].style.left = (Loc.x) + "px";
+        preview[i].style.top = (Loc.y) + "px";
+    }
 }
 
 function itemClick() {
@@ -466,11 +490,10 @@ function tileContextMenu(e) {
 }
 
 function tileClick() {
-    this.innerHTML = "";
-    var preview = document.getElementById("preview");
-    if (preview.innerHTML == "") {
+    if (previewIsEmpty()) {
         return;
     }
+    this.innerHTML = "";
     var previewdiv = document.querySelector('#preview div').cloneNode(true);
     if ((this.dataset.x % 2 == 0 || this.dataset.y % 2 == 0) && (previewdiv.dataset.name == "straight-rail" || previewdiv.dataset.name == "train-stop")) {
         var x = this.dataset.x;
@@ -532,6 +555,10 @@ function tileMouseOver(event) {
     } else if (event.buttons == 2) {
         tileContextMenu.call(this);
     }
+
+    var offset = this.getBoundingClientRect();
+    var location = { x : offset.left, y : offset.top };
+    setPreviewLocation(location);
 }
 
 function insertImg(tile, url) {
@@ -555,5 +582,3 @@ function encode(json) {
     var bstring = "0" + base64;
     return bstring;
 }
-
-document.onmousemove = setPreviewFollow;
