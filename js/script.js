@@ -5,14 +5,16 @@ window.onload = function () {
     document.addEventListener('keypress', function (e) {
         var key = e.which || e.keyCode;
         console.log(key);
-        if (key === 114) { // 114 is r
-            rotatePreview();
+        if (key === 114) { // r
+            window.FBE.viewmodel.rotateSelectedItem();
         }
-        else if(key == 113){
-            clearPreview();
+        else if(key == 113){ // q
+            window.FBE.viewmodel.pickPlacable(null);
         }
     });
-    createItems();
+
+    window.FBE.view.createSideBar();
+
     createTiles();
     // https://stackoverflow.com/questions/1586330/access-get-directly-from-javascript#1586333
     var $_GET = GETfromUrl();
@@ -373,40 +375,6 @@ function rotatePreview() {
     }
 }
 
-function createPreview(url, r, direction, w, h) {
-    var preview = document.getElementById("preview");
-    //document.getElementsByTagName("body")[0].style.cursor = "url('icons/placeable/"+url+"'), auto";
-    clearPreview();
-    var div = document.createElement("div");
-    div.style.width = w * 32 - 2 + "px";
-    div.style.height = h * 32 - 2 + "px";
-    div.style.margin = "-1px 0 0 -1px";
-    div.setAttribute("data-name", url.slice(0, -4));
-    div.setAttribute("data-r", r);
-    div.setAttribute("data-x", 0);
-    div.setAttribute("data-y", 0);
-    div.setAttribute("data-posoffsetx", w / 2 - 0.5);
-    div.setAttribute("data-posoffsety", h / 2 - 0.5);
-    div.setAttribute("data-direction", direction);
-    div.setAttribute("data-dirstart", direction);
-    
-    var span = document.createElement("span");
-    span.setAttribute("class", "preview__image-helper");
-    div.appendChild(span);
-    var img = document.createElement("img");
-    img.src = "vendor/factorio/icons/placeable/" + url;
-
-    img.setAttribute("class", "item__image pixelated-image preview__image");
-    div.appendChild(img);
-    preview.appendChild(div);
-    updatePreviewCopies();
-}
-
-function clearPreview(){
-    document.getElementById("preview").innerHTML = "";
-    updatePreviewCopies();
-}
-
 function previewIsEmpty(){
     return document.getElementById("preview").innerHTML == "";
 }
@@ -441,24 +409,6 @@ window.clearGrid = function () {
     createTiles();
 };
 
-function createItems() {
-    var grid = document.getElementById("sidebar");
-    var url;
-    for (var i = 0; i < placeable.length; i++) {
-        var item = document.createElement("div");
-        item.setAttribute("class", "item");
-        url = placeable[i][0];
-        item.setAttribute("data-url", url);
-        item.setAttribute("data-r", placeable[i][1]);
-        item.setAttribute("data-direction", placeable[i][2]);
-        item.setAttribute("data-w", placeable[i][3]);
-        item.setAttribute("data-h", placeable[i][4]);
-        item.addEventListener('click', itemClick);
-        insertImg(item, url);
-        grid.appendChild(item);
-    }
-}
-
 function setPreviewLocation(Loc){
     var preview = document.getElementsByClassName("mouse__follow");
     for(var i = 0; i < preview.length; i++){
@@ -467,20 +417,6 @@ function setPreviewLocation(Loc){
     }
 }
 
-function itemClick() {
-    createPreview(this.dataset.url, this.dataset.r, this.dataset.direction, this.dataset.w, this.dataset.h);
-    setActiveItem(this);
-}
-
-function setActiveItem(item) {
-    var active = document.querySelectorAll('.activeitem');
-    if (active.length > 0) {
-        for (var i = 0; i < active.length; i++) {
-            active[i].classList.remove("activeitem");
-        }
-    }
-    item.classList.add("activeitem");
-}
 
 function tileContextMenu(e) {
     if (e) {
@@ -559,16 +495,6 @@ function tileMouseOver(event) {
     var offset = this.getBoundingClientRect();
     var location = { x : offset.left, y : offset.top };
     setPreviewLocation(location);
-}
-
-function insertImg(tile, url) {
-    var div = document.createElement("div");
-    div.setAttribute("class", "itemdiv");
-    var img = document.createElement("img");
-    img.src = "vendor/factorio/icons/placeable/" + url;
-    img.setAttribute("class", "item__image pixelated-image");
-    div.appendChild(img);
-    tile.appendChild(div);
 }
 
 function encode(json) {

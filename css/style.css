@@ -80,13 +80,17 @@ html {
     }
 }
 
+.preview {
+    margin: -1px 0 0 -1px;
+}
+
 .preview__image-helper {
     display: inline-block;
     height: 100%;
     vertical-align: middle;
 }
 
-.preview__image {
+.preview img {
     vertical-align: middle;
     width: inherit;
     height: inherit;
@@ -228,7 +232,7 @@ html {
     border: 1px solid red;
 }
 
-.item__image {
+.item img {
     width: 100%;
 }
 
