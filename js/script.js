@@ -430,7 +430,7 @@ function createTiles() {
             tile.addEventListener('mouseover', tileMouseOver);
             tile.addEventListener('mousedown', tileMouseOver);
             //prevent context menu from appearing
-            tile.addEventListener('contextmenu', function(e) {e.preventDefault();})
+            tile.addEventListener('contextmenu', function(e) {e.preventDefault();});
             row.appendChild(tile);
         }
         grid.appendChild(row);
