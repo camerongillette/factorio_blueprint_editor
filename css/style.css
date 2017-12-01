@@ -59,14 +59,24 @@ html {
     grid-row-end: 3;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center;    
+    float: left;
+}
+
+.mouse__follow {
+    position: absolute;
+    pointer-events: none;
+}
+
+.mouse__preview {
+    opacity: 0.75;
 }
 
 @media only screen and (max-width: 425px) {
     .navbar__preview {
         display: none;
         justify-content: center;
-        align-items: center;
+        align-items: center;    
     }
 }
 
@@ -97,7 +107,6 @@ html {
     overflow-y: scroll;
     overflow-x: hidden;
 }
-
 
 @media only screen and (max-width: 768px) {
     .navbar__items {
@@ -254,7 +263,7 @@ html {
     top: 0;
     left: 0;
     border: 1px solid black;
-    z-index: 9998;
+    z-index: 1;
 }
 
 .tile>div:hover {
@@ -286,4 +295,11 @@ html {
 
 .scrollbar::-webkit-scrollbar-thumb {
     background-color: #000000;
+
+
+
+footer {
+    padding-top: 1rem;
+    font-size: 0.75rem;
+    color: grey; 
 }

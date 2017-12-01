@@ -27,10 +27,16 @@
             <button onclick="rotatePreview()">Rotate (R)</button>
             <button onclick="clearGrid()">Clear Grid</button>
         </div>
-        <div id="preview" class="navbar__preview navbar__inner-container"></div>            
+        <div id="preview" class="navbar__preview navbar__inner-container preview__main"></div>     
+        <div id="mousePreview" class="mouse__follow preview__copy mouse__preview"></div>       
         <div id="sidebar" class="navbar__items navbar__inner-container scrollbar"></div>
         <div id="grid" class="factorio__grid"></div>
     </div>
+    <footer>
+        Copyright &copy; 2017 elxeno 
+        <br>
+        Factorio assets come directly from the Factorio game files, and are subject to all copyright policies associated with the game.
+    </footer>
 
     <script src="vendor/factorio-blueprint.min.js"></script>
     <script src="vendor/pako.js"></script>
