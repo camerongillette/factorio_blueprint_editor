@@ -14,5 +14,6 @@ module.exports = {
         "linebreak-style": [ "error", "windows" ],
         "semi": [ "error", "always" ],
         "eol-last": [ "error", "always" ],
+        "eqeqeq": ["error"]
     }
 };
