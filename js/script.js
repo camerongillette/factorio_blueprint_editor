@@ -1,6 +1,3 @@
-/* global pako */
-/* global Base64 */
-
 window.onload = function () {
     document.addEventListener('keypress', function (e) {
         var key = e.which || e.keyCode;
@@ -22,6 +19,7 @@ window.onload = function () {
         getFromMyJSON($_GET.id);
     }
 };
+
 function GETfromUrl(){
     return location.search.substr(1).split("&").reduce(function(object,uriVal){
         var entry = uriVal.split("=");
@@ -30,86 +28,6 @@ function GETfromUrl(){
         }
         return object;
     },{});
-}
-
-function createJSON() {
-    var jsonstring = '{"blueprint": {"icons": [{"signal": {"type": "item","name": "express-transport-belt"},"index": 1}],"entities": [';
-    var entities = document.getElementsByClassName("entity");
-
-    if (entities.length == 0) {
-        return "";
-    } else {
-        for (var i = 0; i < entities.length; i++) {
-            var number = i + 1;
-            var name = entities[i].dataset.name;
-            var type = "";
-            if (name.slice(0, 2) == "i-" || name.slice(0, 2) == "o-") {
-                if (name.slice(0, 2) == "i-") {
-                    type = '"type": "input",';
-                } else {
-                    type = '"type": "output",';
-                }
-                name = name.slice(2);
-            }
-            var posx = Number(entities[i].dataset.x) + Number(entities[i].dataset.posoffsetx);
-            var posy = Number(entities[i].dataset.y) + Number(entities[i].dataset.posoffsety);
-            jsonstring = jsonstring + '{' +
-                '"entity_number": ' + number + ',' +
-                '"name": "' + name + '",' +
-                '"position": {' +
-                '"x": ' + posx + ',' +
-                '"y": ' + posy +
-                '},' + type +
-                '"direction":' + entities[i].dataset.direction +
-                '},';
-        }
-        jsonstring = jsonstring.slice(0, -1) + '],' +
-            '"item": "blueprint",' +
-            '"version": 64426934272' +
-            '}' +
-            '}';
-        return jsonstring;
-    }
-    
-}
-
-function createEntitiesFromJSON(jsonobj){
-    var entities = jsonobj.blueprint.entities;
-    var items = document.querySelectorAll('#sidebar div'); 
-    console.log(entities.length);
-    console.log(entities);
-    for (var ent = 0; ent < entities.length; ent++){
-        var name = entities[ent].name;
-        var type = entities[ent].type;
-        if (type == "input"){
-            name = "i-" + name;
-        }else if (type == "output"){
-            name = "o-" + name;
-        }
-        for (var j = 0; j < items.length; j++){
-            if(items[j].dataset.url == name+".png"){
-                items[j].click();
-                var edir = entities[ent].direction || 0;
-                var rotations = Number(edir) - Number(items[j].dataset.direction);
-                console.log(name + " " + items[j].dataset.direction);
-                if(rotations < 0){
-                    rotations = rotations + 8;
-                }
-                rotations = Math.round(rotations / 2);
-                for (var k = 0; k < rotations; k++){
-                    rotatePreview();
-                }
-                var preview = document.querySelector('#preview div');
-                var offsetx = Number(preview.dataset.posoffsetx);
-                var offsety = Number(preview.dataset.posoffsety);
-                var tilex = Number(entities[ent].position.x) - offsetx;
-                var tiley = Number(entities[ent].position.y) - offsety;
-                // rounded tile numbers because position or offset is wrong somewhere else.
-                document.querySelector('[data-x="' + Math.floor(tilex) + '"][data-y="' + Math.floor(tiley) + '"]').click();
-                break;
-            }
-        }
-    }
 }
 
 // https://stackoverflow.com/questions/5999118/how-can-i-add-or-update-a-query-string-parameter
@@ -171,14 +89,14 @@ function getFromMyJSON(id){
     http.onreadystatechange = function() {
         if(http.readyState == 4 && http.status == 200) {
             var resp = JSON.parse(http.responseText);
-            createEntitiesFromJSON(resp);
+            window.FBE.viewmodel.loadJSON(resp);
         }
     };
     http.send();
 }
 
 window.savebtn = function () {
-    var jsonstring = createJSON();
+    var jsonstring = window.FBE.viewmodel.toJSON();
     if (jsonstring == ""){
         //to show on some text field
         console.log("Grid is empty");
@@ -223,95 +141,11 @@ window.copybtn = function (ev) {
 
 window.bpbtn = function () {
     document.getElementById("blueprint").style.display = "block";
-    var jsonstring = createJSON();
-    if (jsonstring == ""){
-        document.getElementById("bp").value = "Grid is empty";
-    } else {
-        document.getElementById("bp").value = encode(jsonstring);
+    var encoded = window.FBE.viewmodel.encode();
+    if (encoded){
+        document.getElementById("bp").value = encoded;
         document.getElementById("bp").select();
+    } else {
+        document.getElementById("bp").value = "Grid is empty";
     }
 };
-
-function updatePreviewCopies(){
-    if(!previewIsEmpty()){
-        var staticPreview = document.querySelector('.preview__main').firstChild.cloneNode(true);
-    }
-
-    var copies = document.getElementsByClassName('preview__copy');
-    for(var i = 0; i < copies.length; i++){
-        copies[i].innerHTML = "";
-        
-        if(!previewIsEmpty()){
-            copies[i].appendChild(staticPreview);
-        }
-    }
-}
-
-function rotatePreview() {
-    var preview = document.querySelector('#preview div');
-    if (preview != null && preview.dataset.r != 0) {
-        var direction = (Number(preview.dataset.direction) + 2) % 8;
-        var dirStart = Number(preview.dataset.dirstart);
-        console.log('sadjkhkjdhs' + dirStart);
-        var w = (Number(preview.style.width.slice(0, -2)) + 2) / 32;
-        console.log('w: ' + w);
-        var h = (Number(preview.style.height.slice(0, -2)) + 2) / 32;
-        var low;
-        var high;
-        if (w < h) {
-            low = w;
-            high = h;
-        } else {
-            low = h;
-            high = w;
-        }
-        var temp = preview.dataset.posoffsetx;
-        preview.dataset.posoffsetx = preview.dataset.posoffsety;
-        preview.dataset.posoffsety = temp;
-        var offsetx;
-        var offsety;
-        var rotation = direction - dirStart;
-        if (rotation < 0) {
-            rotation += 8;
-        }
-        if (rotation == 0) {
-            offsetx = low * 16;
-            offsety = low * 16;
-        }
-        if (rotation == 2) {
-            offsetx = low * 16;
-            offsety = low * 16;
-        }
-        if (rotation == 4) {
-            offsetx = high * 16;
-            offsety = low * 16;
-        }
-        if (rotation == 6) {
-            offsetx = high * 16;
-            offsety = high * 16;
-        }
-        console.log('rotation: ' + rotation);
-        preview.setAttribute("data-direction", direction);
-        preview.style.transformOrigin = offsetx + 'px ' + offsety + 'px';
-        preview.style.transform = 'rotate(' + 45 * rotation + 'deg)';
-        updatePreviewCopies();
-        //div.style.width= w*32-2 +"px";
-        //div.style.height= h*32-2 +"px";
-    }
-}
-
-function previewIsEmpty(){
-    return document.getElementById("preview").innerHTML == "";
-}
-
-function encode(json) {
-    var string = json.replace(/\s/g, "");
-    console.log("string", string);
-    var enc = new TextEncoder("utf-8").encode(string);
-    console.log("enc", enc);
-    var zip = pako.deflate(enc, { level: 9 });
-    console.log("zip", zip);
-    var base64 = Base64.encodeU(zip);
-    var bstring = "0" + base64;
-    return bstring;
-}

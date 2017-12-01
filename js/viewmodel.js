@@ -19,11 +19,52 @@ window.FBE = window.FBE || {};
         clear: clear,
         clearPosition: clearPosition,
         couldPlaceSelectedItem: couldPlaceSelectedItem,
+        encode: encode,
+        toJSON: toJSON,
+        loadJSON: loadJSON,
         _: {
             bp: bp,
             selectedItem: selectedItem
         }
     };
+
+    function loadJSON(json) {
+        clear();
+
+        var parsed = new Blueprint(json);
+        var placeableItems = getPlaceableItems();
+
+        parsed.entities.forEach(function (entity) {
+            loadEntity(placeableItems, entity);
+        });
+        selectedItem = null;
+    }
+
+    function loadEntity(placeables, entity) {
+        var items = placeables
+            .filter(function (p) { return p.name === entity.name; }),
+            item;
+
+        if (items.length === 2) {
+            item = items.filter(function (p) {
+                return p.type === entity.directionType;
+            })[0];
+        } else if (items.length === 1) {
+            item = items[0];
+        }
+
+        item.direction = entity.direction;
+        selectedItem = item;
+        tryPlaceSelectedItem(entity.position);
+    }
+
+    function toJSON() {
+        return bp.entities.length > 0 ? bp.toJSON() : null;
+    }
+
+    function encode() {
+        return bp.entities.length > 0 ? bp.encode() : null;
+    }
 
     function couldPlaceSelectedItem(point) {
         if (!selectedItem) { return false; }
