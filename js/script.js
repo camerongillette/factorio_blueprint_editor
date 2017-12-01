@@ -4,7 +4,7 @@
 window.onload = function () {
     document.addEventListener('keypress', function (e) {
         var key = e.which || e.keyCode;
-        console.log(key);
+        
         if (key === 114) { // 114 is r
             rotatePreview();
         }
@@ -157,9 +157,8 @@ function createJSON() {
 
 function createEntitiesFromJSON(jsonobj){
     var entities = jsonobj.blueprint.entities;
-    var items = document.querySelectorAll('#sidebar div'); 
-    console.log(entities.length);
-    console.log(entities);
+    var items = document.querySelectorAll('#sidebar div');
+
     for (var ent = 0; ent < entities.length; ent++){
         var name = entities[ent].name;
         var type = entities[ent].type;
@@ -173,7 +172,7 @@ function createEntitiesFromJSON(jsonobj){
                 items[j].click();
                 var edir = entities[ent].direction || 0;
                 var rotations = Number(edir) - Number(items[j].dataset.direction);
-                console.log(name + " " + items[j].dataset.direction);
+
                 if(rotations < 0){
                     rotations = rotations + 8;
                 }
@@ -261,10 +260,7 @@ function getFromMyJSON(id){
 
 window.savebtn = function () {
     var jsonstring = createJSON();
-    if (jsonstring == ""){
-        //to show on some text field
-        console.log("Grid is empty");
-    } else {
+    if (jsonstring != ""){
         sendToMyJSON(jsonstring);
     }
 
@@ -598,11 +594,8 @@ function insertImg(tile, url) {
 
 function encode(json) {
     var string = json.replace(/\s/g, "");
-    console.log("string", string);
     var enc = new TextEncoder("utf-8").encode(string);
-    console.log("enc", enc);
     var zip = pako.deflate(enc, { level: 9 });
-    console.log("zip", zip);
     var base64 = Base64.encodeU(zip);
     var bstring = "0" + base64;
     return bstring;
