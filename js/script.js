@@ -152,7 +152,7 @@ function createJSON() {
             '}';
         return jsonstring;
     }
-    
+
 }
 
 function createEntitiesFromJSON(jsonobj){
@@ -195,8 +195,8 @@ function createEntitiesFromJSON(jsonobj){
 
 // https://stackoverflow.com/questions/5999118/how-can-i-add-or-update-a-query-string-parameter
 function UpdateQueryString(key, value, url) {
-    if (!url) { 
-        url = window.location.href; 
+    if (!url) {
+        url = window.location.href;
     }
 
     var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
@@ -325,7 +325,7 @@ function updatePreviewCopies(){
     var copies = document.getElementsByClassName('preview__copy');
     for(var i = 0; i < copies.length; i++){
         copies[i].innerHTML = "";
-        
+
         if(!previewIsEmpty()){
             copies[i].appendChild(staticPreview);
         }
@@ -374,9 +374,9 @@ function rotatePreview() {
             offsetx = high * 16;
             offsety = high * 16;
         }
-        
+
         preview.setAttribute("data-direction", direction);
-        
+
         //Handles usecases where entity should be horizontally flipped instead of rotated, like inserters. Rotation 4 = 270 degrees
         if(rotation === 4){
             preview.style.transform = 'initial';
@@ -385,7 +385,7 @@ function rotatePreview() {
         else {
             preview.style.transform = 'rotate(' + 45 * rotation + 'deg)';
         }
-        
+
         preview.style.transformOrigin = offsetx + 'px ' + offsety + 'px';
         updatePreviewCopies();
     }
@@ -398,7 +398,7 @@ function createPreview(dataset) {
     var w = dataset.w;
     var h = dataset.h;
     var mirrorFlippedHorizontal = dataset.mirrorFlippedHorizontal;
-    
+
     var preview = document.getElementById("preview");
     //document.getElementsByTagName("body")[0].style.cursor = "url('icons/placeable/"+url+"'), auto";
     clearPreview();
@@ -415,7 +415,7 @@ function createPreview(dataset) {
     div.setAttribute("data-direction", direction);
     div.setAttribute("data-mirrorFlippedHorizontal", mirrorFlippedHorizontal);
     div.setAttribute("data-dirstart", direction);
-    
+
     var span = document.createElement("span");
     span.setAttribute("class", "preview__image-helper");
     div.appendChild(span);
@@ -576,7 +576,7 @@ function getPlaceableAt(x, y) {
         }
     }
 }
-    
+
 function tileMouseOver(event) {
     if (event.buttons === 1) { // Left mouse button is pressed
         tileClick.call(this);
