@@ -8,6 +8,7 @@ module.exports = {
     "extends": "eslint:recommended",
     "rules": {
         "no-console": ["error", { allow: ["warn", "error"] } ],
+        "indent": ["error", 4],
         "indent": [ "error", 4 ],
         "linebreak-style": [ "error", "windows" ],
         "semi": [ "error", "always" ],
