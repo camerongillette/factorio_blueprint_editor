@@ -72,6 +72,10 @@ html {
     opacity: 0.75;
 }
 
+.mouse__preview.blocked {
+    background-color: rgba(255, 0, 0, 0.3)
+}
+
 @media only screen and (max-width: 425px) {
     .navbar__preview {
         display: none;

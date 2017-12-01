@@ -4,15 +4,86 @@ window.FBE = window.FBE || {};
     'use strict';
     /* global Blueprint, TinyEmitter */
 
+    var events = new TinyEmitter(),
+        bp = new Blueprint(),
+        selectedItem;
+
     FBE.viewmodel = {
         getPlaceableItems: getPlaceableItems,
         pickPlacable: pickPlacable,
         onItemSelected: onItemSelected,
-        rotateSelectedItem: rotateSelectedItem
+        onItemPlaced: onItemPlaced,
+        onItemRemoved: onItemRemoved,
+        rotateSelectedItem: rotateSelectedItem,
+        tryPlaceSelectedItem: tryPlaceSelectedItem,
+        clear: clear,
+        clearPosition: clearPosition,
+        couldPlaceSelectedItem: couldPlaceSelectedItem,
+        _: {
+            bp: bp,
+            selectedItem: selectedItem
+        }
     };
 
-    var events = new TinyEmitter(),
-        selectedItem;
+    function couldPlaceSelectedItem(point) {
+        if (!selectedItem) { return false; }
+
+        try {
+            bp
+                .createEntity(selectedItem.name, point, selectedItem.direction)
+                .remove();
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function clear() {
+        bp.entities.map(function (e) { return e.position; })
+            .forEach(clearPosition);
+    }
+
+    function onItemRemoved(callback) {
+        return events.on('itemRemoved', callback);
+    }
+
+    function onItemPlaced(callback) {
+        return events.on('itemPlaced', callback);
+    }
+
+    function clearPosition(point) {
+        var wasCleared = bp.removeEntityAtPosition(point);
+
+        if (wasCleared) {
+            console.log('cleared blueprint position', point);
+            events.emit('itemRemoved', { point: point });
+        }
+        return wasCleared;
+    }
+
+    function tryPlaceSelectedItem(point) {
+        if (!selectedItem) { return false; }
+        try {
+            var entity = bp.createEntity(
+                selectedItem.name,
+                point,
+                selectedItem.direction
+            );
+            if(entity.directionType){
+                entity.directionType = selectedItem.type;
+            }
+            console.log('added to blueprint:', selectedItem, 'at', point, entity);
+            events.emit('itemPlaced', {
+                point: point,
+                item: Object.assign({}, selectedItem),
+                entity: entity
+            });
+            return true;
+        } catch (e) {
+            console.warn('failed to create entity', e);
+            return false;
+        }
+    }
 
     function rotateSelectedItem() {
         if (selectedItem && selectedItem.canRotate) {
@@ -49,7 +120,9 @@ window.FBE = window.FBE || {};
     }
 
     function isPlaceable(entity) {
-        return entity.type === "item" && entity.width;
+        return (entity.type === "item" && entity.width);
+        // TODO: support tiles
+        // || entity.type === "tile"
     }
 
     function addDirectionalEntities(results, entity) {
@@ -65,7 +138,7 @@ window.FBE = window.FBE || {};
 
     function addDerivedProperties(entity) {
 
-        var nonRotators = /beacon|roboport|lab|heat_pipe|pipe|furnace|chest|pole|substation|solar|accumulator|centrifuge|wall|rocket_silo|radar|turret|speaker|power_switch/i;
+        var nonRotators = /beacon|roboport|lab|heat_pipe|pipe|furnace|chest|pole|substation|solar|accumulator|centrifuge|wall|rocket_silo|radar|turret|speaker|power_switch|reactor|lamp|land_mine/i;
 
         return Object.assign({}, entity, {
             iconUrl: getIconUrl(entity),
@@ -79,7 +152,10 @@ window.FBE = window.FBE || {};
         var directionPrefix = entity.directionType
             ? entity.type[0] + '-'
             : '';
-        var fileName = directionPrefix + entity.name.replace(/_/g, '-') + '.png';
+
+        var fileName = directionPrefix
+            + entity.name.replace(/_/g, '-') // TODO: rename files so we can drop this
+            + '.png';
         return 'vendor/factorio/icons/placeable/' + fileName;
     }
 

@@ -4,18 +4,18 @@
 window.onload = function () {
     document.addEventListener('keypress', function (e) {
         var key = e.which || e.keyCode;
-        console.log(key);
-        if (key === 114) { // r
+        if (key === 'r'.charCodeAt(0)) {
             window.FBE.viewmodel.rotateSelectedItem();
         }
-        else if(key == 113){ // q
+        else if(key == 'q'.charCodeAt(0)){
             window.FBE.viewmodel.pickPlacable(null);
         }
     });
 
     window.FBE.view.createSideBar();
+    // TODO: make these configurable - see #5
+    window.FBE.view.createGrid(34, 24);
 
-    createTiles();
     // https://stackoverflow.com/questions/1586330/access-get-directly-from-javascript#1586333
     var $_GET = GETfromUrl();
     if($_GET.id != undefined){
@@ -31,81 +31,6 @@ function GETfromUrl(){
         return object;
     },{});
 }
-var placeable = [
-    ["assembling-machine-1.png", 1, 0, 3, 3],
-    ["assembling-machine-2.png", 1, 0, 3, 3],
-    ["assembling-machine-3.png", 1, 0, 3, 3],
-    ["chemical-plant.png", 1, 0, 3, 3],
-    ["oil-refinery.png", 1, 0, 5, 5],
-    ["beacon.png", 0, 0, 3, 3],
-    ["roboport.png", 0, 0, 4, 4],
-    ["lab.png", 0, 0, 3, 3],
-    ["transport-belt.png", 1, 0, 1, 1],
-    ["i-underground-belt.png", 1, 2, 1, 1],
-    ["o-underground-belt.png", 1, 6, 1, 1],
-    ["splitter.png", 1, 4, 2, 1],
-    ["fast-transport-belt.png", 1, 0, 1, 1],
-    ["i-fast-underground-belt.png", 1, 2, 1, 1],
-    ["o-fast-underground-belt.png", 1, 6, 1, 1],
-    ["fast-splitter.png", 1, 4, 2, 1],
-    ["express-transport-belt.png", 1, 0, 1, 1],
-    ["i-express-underground-belt.png", 1, 2, 1, 1],
-    ["o-express-underground-belt.png", 1, 6, 1, 1],
-    ["express-splitter.png", 1, 4, 2, 1],
-    ["burner-mining-drill.png", 1, 4, 2, 2],
-    ["electric-mining-drill.png", 1, 2, 3, 3],
-    ["pumpjack.png", 1, 0, 2, 2],
-    ["boiler.png", 1, 0, 3, 2],
-    ["heat-boiler.png", 1, 0, 3, 2],
-    ["heat-pipe.png", 0, 0, 1, 1],
-    ["pipe.png", 0, 0, 1, 1],
-    ["pipe-to-ground.png", 1, 2, 1, 1],
-    ["stone-furnace.png", 0, 0, 2, 2],
-    ["steel-furnace.png", 0, 0, 2, 2],
-    ["electric-furnace.png", 0, 0, 3, 3],
-    ["burner-inserter.png", 1, 6, 1, 1],
-    ["inserter.png", 1, 6, 1, 1],
-    ["long-handed-inserter.png", 1, 6, 1, 1],
-    ["fast-inserter.png", 1, 6, 1, 1],
-    ["filter-inserter.png", 1, 6, 1, 1],
-    ["stack-filter-inserter.png", 1, 6, 1, 1],
-    ["stack-inserter.png", 1, 6, 1, 1],
-    ["wooden-chest.png", 0, 0, 1, 1],
-    ["iron-chest.png", 0, 0, 1, 1],
-    ["steel-chest.png", 0, 0, 1, 1],
-    ["storage-tank.png", 1, 0, 3, 3],
-    ["logistic-chest-active-provider.png", 0, 0, 1, 1],
-    ["logistic-chest-passive-provider.png", 0, 0, 1, 1],
-    ["logistic-chest-requester.png", 0, 0, 1, 1],
-    ["logistic-chest-storage.png", 0, 0, 1, 1],
-    ["small-electric-pole.png", 0, 0, 1, 1],
-    ["medium-electric-pole.png", 0, 0, 1, 1],
-    ["big-electric-pole.png", 0, 0, 2, 2],
-    ["substation.png", 0, 0, 2, 2],
-    ["solar-panel.png", 0, 0, 3, 3],
-    ["accumulator.png", 0, 0, 2, 2],
-    ["steam-engine.png", 1, 2, 5, 3],
-    ["steam-turbine.png", 1, 2, 5, 3],
-    ["centrifuge.png", 0, 0, 3, 3],
-    ["nuclear-reactor.png", 0, 0, 5, 5],
-    ["offshore-pump.png", 1, 6, 2, 1],
-    ["pump.png", 1, 2, 2, 1],
-    ["straight-rail.png", 1, 0, 2, 2],
-    ["train-stop.png", 1, 0, 2, 2],
-    ["rail-chain-signal.png", 1, 0, 1, 1],
-    ["rail-signal.png", 1, 0, 1, 1],
-    ["rocket-silo.png", 0, 0, 9, 10],
-    ["radar.png", 0, 0, 3, 3],
-    ["stone-wall.png", 0, 0, 1, 1],
-    ["gate.png", 2, 2, 1, 1],
-    ["gun-turret.png", 0, 0, 2, 2],
-    ["flamethrower-turret.png", 0, 0, 2, 2],
-    ["laser-turret.png", 0, 0, 2, 2],
-    ["constant-combinator.png", 0, 0, 1, 1],
-    ["decider-combinator.png", 1, 2, 2, 1],
-    ["arithmetic-combinator.png", 1, 2, 2, 1],
-    ["programmable-speaker.png", 0, 0, 1, 1],
-    ["power-switch.png", 0, 0, 2, 2]];
 
 function createJSON() {
     var jsonstring = '{"blueprint": {"icons": [{"signal": {"type": "item","name": "express-transport-belt"},"index": 1}],"entities": [';
@@ -377,124 +302,6 @@ function rotatePreview() {
 
 function previewIsEmpty(){
     return document.getElementById("preview").innerHTML == "";
-}
-
-function createTiles() {
-    var grid = document.getElementById("grid");
-    var row;
-
-    for (var r = -9; r < 15; r++) {
-        row = document.createElement("div");
-        row.setAttribute("class", "row");
-        for (var d = -9; d < 25; d++) {
-            var tile = document.createElement("div");
-            tile.setAttribute("data-x", d);
-            tile.setAttribute("data-y", r);
-            tile.setAttribute("data-status", 0);
-            tile.setAttribute("class", "tile");
-            if (d == 0 && r == 0) {
-                tile.style.background = "darkgrey";
-            }
-            tile.addEventListener('mouseover', tileMouseOver);
-            tile.addEventListener('click', tileClick);
-            tile.addEventListener('contextmenu', tileContextMenu, false);
-            row.appendChild(tile);
-        }
-        grid.appendChild(row);
-    }
-}
-
-window.clearGrid = function () {
-    document.getElementById("grid").innerHTML = "";
-    createTiles();
-};
-
-function setPreviewLocation(Loc){
-    var preview = document.getElementsByClassName("mouse__follow");
-    for(var i = 0; i < preview.length; i++){
-        preview[i].style.left = (Loc.x) + "px";
-        preview[i].style.top = (Loc.y) + "px";
-    }
-}
-
-
-function tileContextMenu(e) {
-    if (e) {
-        e.preventDefault();
-    }
-    this.innerHTML = "";
-}
-
-function tileClick() {
-    if (previewIsEmpty()) {
-        return;
-    }
-    this.innerHTML = "";
-    var previewdiv = document.querySelector('#preview div').cloneNode(true);
-    if ((this.dataset.x % 2 == 0 || this.dataset.y % 2 == 0) && (previewdiv.dataset.name == "straight-rail" || previewdiv.dataset.name == "train-stop")) {
-        var x = this.dataset.x;
-        var y = this.dataset.y;
-        if (x % 2 == 0) {
-            x -= 1;
-        }
-        if (y % 2 == 0) {
-            y -= 1;
-        }
-        document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]').click();
-    } else if (!isBlocked(previewdiv.dataset.name, this.dataset.x, this.dataset.y)) {
-        previewdiv.setAttribute("data-x", this.dataset.x);
-        previewdiv.setAttribute("data-y", this.dataset.y);
-        previewdiv.setAttribute("class", "entity");
-        this.appendChild(previewdiv);
-    }
-}
-
-function isBlocked(name, x, y) {
-    var data = getPlaceableData(name);
-    for (var i = 0; i < data[3]; i++) {
-        for (var j = 0; j < data[4]; j++) {
-            var existingPlaceable = getPlaceableAt(+x + i, +y + j);
-            if (existingPlaceable) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-function getPlaceableData(name) {
-    for (var i in placeable) {
-        if (placeable[i][0].startsWith(name)) {
-            return placeable[i];
-        }
-    }
-}
-
-function getPlaceableAt(x, y) {
-    for (var i = -9; i <= x; i++) {
-        for (var j = -9; j <= y; j++) {
-            var tile = document.querySelector("[data-x='" + i + "'][data-y='" + j + "']");
-            if (!tile || !tile.innerHTML) {
-                continue;
-            }
-            var data = getPlaceableData(tile.children[0].dataset.name);
-            if (data && data[3] + i > x && data[4] + j > y) {
-                return data[0];
-            }
-        }
-    }
-}
-    
-function tileMouseOver(event) {
-    if (event.buttons == 1) { // Left mouse button is pressed
-        tileClick.call(this);
-    } else if (event.buttons == 2) {
-        tileContextMenu.call(this);
-    }
-
-    var offset = this.getBoundingClientRect();
-    var location = { x : offset.left, y : offset.top };
-    setPreviewLocation(location);
 }
 
 function encode(json) {
