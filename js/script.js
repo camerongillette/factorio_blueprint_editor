@@ -535,10 +535,10 @@ function clearTile(tile){
 }
 
 function tileClick(event, tile) {
-    if(event.buttons == 2){  //right mouse button
+    if(event.buttons === 2){  //right mouse button
         clearTile(tile);
     }
-    else if(event.buttons == 1 && !previewIsEmpty()){ //left mouse button and item is selected
+    else if(event.buttons === 1 && !previewIsEmpty()){ //left mouse button and item is selected
         setTile(tile);
     }
 }
