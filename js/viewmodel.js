@@ -6,7 +6,9 @@ window.FBE = window.FBE || {};
 
     var events = new TinyEmitter(),
         bp = new Blueprint(),
-        selectedItem;
+        selectedItem,
+        entityNamesThatDoNotRotate = /beacon|roboport|lab|heat_pipe|pipe$|furnace|chest|pole|substation|solar|accumulator|centrifuge|wall|rocket_silo|radar|turret|speaker|power_switch|reactor|lamp|land_mine/i
+        ;
 
     FBE.viewmodel = {
         getPlaceableItems: getPlaceableItems,
@@ -110,7 +112,7 @@ window.FBE = window.FBE || {};
                 point,
                 selectedItem.direction
             );
-            if(entity.directionType){
+            if (entity.directionType) {
                 entity.directionType = selectedItem.type;
             }
             console.log('added to blueprint:', selectedItem, 'at', point, entity);
@@ -153,7 +155,10 @@ window.FBE = window.FBE || {};
                     {
                         name: name
                     },
-                    rawEntities[name]);
+                    rawEntities[name],
+                    // fix bad data in factorio-blueprint
+                    name === 'steam_turbine' && {width: 5, height: 3}                 
+                );
             })
             .filter(isPlaceable)
             .reduce(addDirectionalEntities, [])
@@ -178,14 +183,12 @@ window.FBE = window.FBE || {};
     }
 
     function addDerivedProperties(entity) {
-
-        var nonRotators = /beacon|roboport|lab|heat_pipe|pipe|furnace|chest|pole|substation|solar|accumulator|centrifuge|wall|rocket_silo|radar|turret|speaker|power_switch|reactor|lamp|land_mine/i;
-
         return Object.assign({}, entity, {
             iconUrl: getIconUrl(entity),
             canRotate: entity.width !== entity.height
-                || !nonRotators.test(entity.name),
-            direction: entity.width > entity.height ? 2 : 0
+                || !entityNamesThatDoNotRotate.test(entity.name),
+            defaultDirection: getDefaultDirection(entity),
+            direction: getDefaultDirection(entity)
         });
     }
 
@@ -198,6 +201,15 @@ window.FBE = window.FBE || {};
             + entity.name.replace(/_/g, '-') // TODO: rename files so we can drop this
             + '.png';
         return 'vendor/factorio/icons/placeable/' + fileName;
+    }
+
+    function getDefaultDirection(entity) {
+        if (entity.type === 'input') { return 2; }
+        if (entity.type === 'output') { return 6; }
+        if (/inserter|offshore_pump/.test(entity.name)) { return 6; }
+        if (/splitter|burner_mining/.test(entity.name)) { return 4; }
+        if (/electric_mining|pipe_to_ground|steam_engine|steam_turbine|pump|gate|arithmetic_combinator|decider_combinator/.test(entity.name)) { return 2; }
+        return 0;
     }
 
 })(window.FBE);

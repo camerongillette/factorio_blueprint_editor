@@ -33,15 +33,23 @@ window.FBE = window.FBE || {};
         grid.addEventListener('mousedown', function (evt) {
             isDrawing = evt.button == 0;
             isClearing = evt.button == 2;
+            var point = getPointFromTile(evt.target);
+            tileMouseOver(point, evt);
         });
         grid.addEventListener('mouseup', function () {
             isDrawing = isClearing = false;
         });
+        grid.addEventListener('contextmenu',
+            function (evt) { evt.preventDefault(); }
+            , false);
+
     }
 
     function renderItemOnGrid(event) {
+        var preview = createPreview(event.item);
+        preview.setAttribute('data-point', event.point.x + ':' + event.point.y);
         getTileFromPoint(event.point)
-            .appendChild(createPreview(event.item));
+            .appendChild(preview);
     }
 
     function createTile(point) {
@@ -53,18 +61,19 @@ window.FBE = window.FBE || {};
             tile.classList.add('origin');
         }
         tile.addEventListener('mouseover', tileMouseOver.bind(null, point));
-        tile.addEventListener('click', FBE.viewmodel.tryPlaceSelectedItem.bind(null, point));
-        tile.addEventListener('contextmenu',
-            function (evt) {
-                evt.preventDefault();
-                FBE.viewmodel.clearPosition(point);
-            }
-            , false);
         return tile;
     }
 
     function removeItemOnGrid(event) {
         getTileFromPoint(event.point).innerHTML = '';
+    }
+
+    function getPointFromTile(tile) {
+        var coords = tile.dataset.point.split(':');
+        return {
+            x: coords[0],
+            y: coords[1]
+        };
     }
 
     function getTileFromPoint(point) {
@@ -88,7 +97,7 @@ window.FBE = window.FBE || {};
 
         if (FBE.viewmodel.couldPlaceSelectedItem(point)) {
             preview.classList.remove('blocked');
-        }else{
+        } else {
             preview.classList.add('blocked');
         }
     }
@@ -143,9 +152,17 @@ window.FBE = window.FBE || {};
         div.classList.add('preview');
         div.style.width = placeable.width * 32 - 2 + "px";
         div.style.height = placeable.height * 32 - 2 + "px";
-        if (placeable.direction) {
-            // TODO account for mismatch with icons rotation and CSS rotation
-            div.style.transform = 'rotate(' + 45 * placeable.direction + 'deg)';
+        if (placeable.canRotate) {
+            var rotation = (placeable.direction - placeable.defaultDirection);
+            if (rotation < 0) { rotation += 8; }
+
+            //Handles usecases where entity should be horizontally flipped instead of rotated, like inserters. Rotation 4 = 270 degrees
+            if (rotation == 4) {
+                div.style.transform = 'initial';
+                div.style.transform = 'scale(-1,1)';
+            } else {
+                div.style.transform = 'rotate(' + 45 * rotation + 'deg)';
+            }
         }
         div.appendChild(createImage(placeable));
         return div;
