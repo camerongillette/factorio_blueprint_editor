@@ -454,8 +454,9 @@ function createTiles() {
                 tile.style.background = "darkgrey";
             }
             tile.addEventListener('mouseover', tileMouseOver);
-            tile.addEventListener('click', tileClick);
-            tile.addEventListener('contextmenu', tileContextMenu, false);
+            tile.addEventListener('mousedown', tileMouseOver);
+            //prevent context menu from appearing
+            tile.addEventListener('contextmenu', function(e) {e.preventDefault();});
             row.appendChild(tile);
         }
         grid.appendChild(row);
@@ -509,22 +510,11 @@ function setActiveItem(item) {
     item.classList.add("activeitem");
 }
 
-function tileContextMenu(e) {
-    if (e) {
-        e.preventDefault();
-    }
-    this.innerHTML = "";
-}
-
-function tileClick() {
-    if (previewIsEmpty()) {
-        return;
-    }
-    this.innerHTML = "";
+function setTile(tile){
     var previewdiv = document.querySelector('#preview div').cloneNode(true);
-    if ((this.dataset.x % 2 === 0 || this.dataset.y % 2 === 0) && (previewdiv.dataset.name === "straight-rail" || previewdiv.dataset.name === "train-stop")) {
-        var x = this.dataset.x;
-        var y = this.dataset.y;
+    if ((tile.dataset.x % 2 === 0 || tile.dataset.y % 2 === 0) && (previewdiv.dataset.name === "straight-rail" || previewdiv.dataset.name === "train-stop")) {
+        var x = tile.dataset.x;
+        var y = tile.dataset.y;
         if (x % 2 === 0) {
             x -= 1;
         }
@@ -532,11 +522,24 @@ function tileClick() {
             y -= 1;
         }
         document.querySelector('[data-x="' + x + '"][data-y="' + y + '"]').click();
-    } else if (!isBlocked(previewdiv.dataset.name, this.dataset.x, this.dataset.y)) {
-        previewdiv.setAttribute("data-x", this.dataset.x);
-        previewdiv.setAttribute("data-y", this.dataset.y);
+    } else if (!isBlocked(previewdiv.dataset.name, tile.dataset.x, tile.dataset.y)) {
+        previewdiv.setAttribute("data-x", tile.dataset.x);
+        previewdiv.setAttribute("data-y", tile.dataset.y);
         previewdiv.setAttribute("class", "entity");
-        this.appendChild(previewdiv);
+        tile.appendChild(previewdiv);
+    }
+}
+
+function clearTile(tile){
+    tile.innerHTML = "";
+}
+
+function tileClick(event, tile) {
+    if(event.buttons == 2){  //right mouse button
+        clearTile(tile);
+    }
+    else if(event.buttons == 1 && !previewIsEmpty()){ //left mouse button and item is selected
+        setTile(tile);
     }
 }
 
@@ -578,10 +581,8 @@ function getPlaceableAt(x, y) {
 }
 
 function tileMouseOver(event) {
-    if (event.buttons === 1) { // Left mouse button is pressed
-        tileClick.call(this);
-    } else if (event.buttons === 2) {
-        tileContextMenu.call(this);
+    if (event.buttons !== 0) { // any button is pressed
+        tileClick(event, this);
     }
 
     var offset = this.getBoundingClientRect();
