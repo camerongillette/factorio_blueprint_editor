@@ -33,8 +33,8 @@ window.FBE = window.FBE || {};
         grid.addEventListener('mousedown', function (evt) {
             isDrawing = evt.button == 0;
             isClearing = evt.button == 2;
-            var point = getPointFromTile(evt.target);
-            tileMouseOver(point, evt);
+            var point = getPointFromNode(evt.target);
+            if (point) { tileMouseOver(point, evt); }
         });
         grid.addEventListener('mouseup', function () {
             isDrawing = isClearing = false;
@@ -68,8 +68,9 @@ window.FBE = window.FBE || {};
         getTileFromPoint(event.point).innerHTML = '';
     }
 
-    function getPointFromTile(tile) {
-        var coords = tile.dataset.point.split(':');
+    function getPointFromNode(node) {
+        if (!node.dataset.point) { return null; }
+        var coords = node.dataset.point.split(':');
         return {
             x: coords[0],
             y: coords[1]

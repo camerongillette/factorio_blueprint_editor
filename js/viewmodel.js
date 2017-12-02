@@ -44,7 +44,7 @@ window.FBE = window.FBE || {};
 
     function loadEntity(placeables, entity) {
         var items = placeables
-            .filter(function (p) { return p.name === entity.name; }),
+                .filter(function (p) { return p.name === entity.name; }),
             item;
 
         if (items.length === 2) {
@@ -157,7 +157,12 @@ window.FBE = window.FBE || {};
                     },
                     rawEntities[name],
                     // fix bad data in factorio-blueprint
-                    name === 'steam_turbine' && {width: 5, height: 3}                 
+                    name === 'steam_turbine' && { width: 5, height: 3 },
+                    name === 'boiler' && { width: 3, height: 2 },
+                    // fix spots where height/width are swapped
+                    name === 'pump' && { width: 2, height: 1 },
+                    name === 'decider_combinator' && { width: 2, height: 1 },
+                    name === 'arithmetic_combinator' && { width: 2, height: 1 }
                 );
             })
             .filter(isPlaceable)
@@ -166,7 +171,8 @@ window.FBE = window.FBE || {};
     }
 
     function isPlaceable(entity) {
-        return (entity.type === "item" && entity.width);
+        return (entity.type === "item" && entity.width)
+            && entity.name !== 'curved_rail'; // curved rail is strange
         // TODO: support tiles
         // || entity.type === "tile"
     }
