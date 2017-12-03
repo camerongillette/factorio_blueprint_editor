@@ -7,7 +7,30 @@ window.FBE = window.FBE || {};
     var events = new TinyEmitter(),
         bp = new Blueprint(),
         selectedItem,
-        entityNamesThatDoNotRotate = /beacon|roboport|lab|heat_pipe|pipe$|furnace|chest|pole|substation|solar|accumulator|centrifuge|wall|rocket_silo|radar|turret|speaker|power_switch|reactor|lamp|land_mine/i
+        entityNamesThatDoNotRotate = /beacon|roboport|lab|heat_pipe|pipe$|furnace|chest|pole|substation|solar|accumulator|centrifuge|wall|rocket_silo|radar|turret|speaker|power_switch|reactor|lamp|land_mine/i,
+        defaultDirectionsByEntityName = [
+            {
+                regex: /inserter|offshore_pump/i,
+                direction: 6
+            },
+            {
+                regex: /splitter|burner_mining/i,
+                direction: 4
+            },
+            {
+                regex: /electric_mining|pipe_to_ground|steam_engine|steam_turbine|pump|gate|arithmetic_combinator|decider_combinator/i,
+                direction: 2
+            }
+        ],
+        factorioBlueprintOverrides = {
+            // fix bad data in factorio-blueprint
+            'steam_turbine': { width: 5, height: 3 },
+            'boiler': { width: 3, height: 2 },
+            // fix spots where height/width are swapped
+            'pump': { width: 2, height: 1 },
+            'decider_combinator': { width: 2, height: 1 },
+            'arithmetic_combinator': { width: 2, height: 1 }
+        }
         ;
 
     FBE.viewmodel = {
@@ -156,13 +179,7 @@ window.FBE = window.FBE || {};
                         name: name
                     },
                     rawEntities[name],
-                    // fix bad data in factorio-blueprint
-                    name === 'steam_turbine' && { width: 5, height: 3 },
-                    name === 'boiler' && { width: 3, height: 2 },
-                    // fix spots where height/width are swapped
-                    name === 'pump' && { width: 2, height: 1 },
-                    name === 'decider_combinator' && { width: 2, height: 1 },
-                    name === 'arithmetic_combinator' && { width: 2, height: 1 }
+                    factorioBlueprintOverrides[name]
                 );
             })
             .filter(isPlaceable)
@@ -212,10 +229,11 @@ window.FBE = window.FBE || {};
     function getDefaultDirection(entity) {
         if (entity.type === 'input') { return 2; }
         if (entity.type === 'output') { return 6; }
-        if (/inserter|offshore_pump/.test(entity.name)) { return 6; }
-        if (/splitter|burner_mining/.test(entity.name)) { return 4; }
-        if (/electric_mining|pipe_to_ground|steam_engine|steam_turbine|pump|gate|arithmetic_combinator|decider_combinator/.test(entity.name)) { return 2; }
-        return 0;
+
+        var first = defaultDirectionsByEntityName
+            .filter(function(x){ return x.regex.test(entity.name);})[0];
+
+        return (first && first.direction) || 0;
     }
 
 })(window.FBE);

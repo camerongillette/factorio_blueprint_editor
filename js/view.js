@@ -154,7 +154,7 @@ window.FBE = window.FBE || {};
         div.style.width = placeable.width * 32 - 2 + "px";
         div.style.height = placeable.height * 32 - 2 + "px";
         if (placeable.canRotate) {
-            var rotation = (placeable.direction - placeable.defaultDirection);
+            var rotation = placeable.direction - placeable.defaultDirection;
             if (rotation < 0) { rotation += 8; }
 
             //Handles usecases where entity should be horizontally flipped instead of rotated, like inserters. Rotation 4 = 270 degrees
