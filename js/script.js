@@ -30,82 +30,81 @@ function GETfromUrl() {
     }, {});
 }
 
-var placeable = [
-
-    ["assembling-machine-1.png", 1, 0, 3, 3],
-    ["assembling-machine-2.png", 1, 0, 3, 3],
-    ["assembling-machine-3.png", 1, 0, 3, 3],
-    ["chemical-plant.png", 1, 0, 3, 3],
-    ["oil-refinery.png", 1, 0, 5, 5],
-    ["beacon.png", 0, 0, 3, 3],
-    ["roboport.png", 0, 0, 4, 4],
-    ["lab.png", 0, 0, 3, 3],
-    ["transport-belt.png", 1, 0, 1, 1],
-    ["i-underground-belt.png", 1, 2, 1, 1],
-    ["o-underground-belt.png", 1, 6, 1, 1],
-    ["splitter.png", 1, 4, 2, 1],
-    ["fast-transport-belt.png", 1, 0, 1, 1],
-    ["i-fast-underground-belt.png", 1, 2, 1, 1],
-    ["o-fast-underground-belt.png", 1, 6, 1, 1],
-    ["fast-splitter.png", 1, 4, 2, 1],
-    ["express-transport-belt.png", 1, 0, 1, 1],
-    ["i-express-underground-belt.png", 1, 2, 1, 1],
-    ["o-express-underground-belt.png", 1, 6, 1, 1],
-    ["express-splitter.png", 1, 4, 2, 1],
-    ["burner-mining-drill.png", 1, 4, 2, 2],
-    ["electric-mining-drill.png", 1, 2, 3, 3],
-    ["pumpjack.png", 1, 0, 2, 2],
-    ["boiler.png", 1, 0, 3, 2],
-    ["heat-boiler.png", 1, 0, 3, 2],
-    ["heat-pipe.png", 0, 0, 1, 1],
-    ["pipe.png", 0, 0, 1, 1],
-    ["pipe-to-ground.png", 1, 2, 1, 1],
-    ["stone-furnace.png", 0, 0, 2, 2],
-    ["steel-furnace.png", 0, 0, 2, 2],
-    ["electric-furnace.png", 0, 0, 3, 3],
-    ["burner-inserter.png", 1, 6, 1, 1, 1],
-    ["inserter.png", 1, 6, 1, 1, 1],
-    ["long-handed-inserter.png", 1, 6, 1, 1, 1],
-    ["fast-inserter.png", 1, 6, 1, 1, 1],
-    ["filter-inserter.png", 1, 6, 1, 1, 1],
-    ["stack-filter-inserter.png", 1, 6, 1, 1, 1],
-    ["stack-inserter.png", 1, 6, 1, 1, 1],
-    ["wooden-chest.png", 0, 0, 1, 1],
-    ["iron-chest.png", 0, 0, 1, 1],
-    ["steel-chest.png", 0, 0, 1, 1],
-    ["storage-tank.png", 1, 0, 3, 3],
-    ["logistic-chest-active-provider.png", 0, 0, 1, 1],
-    ["logistic-chest-passive-provider.png", 0, 0, 1, 1],
-    ["logistic-chest-requester.png", 0, 0, 1, 1],
-    ["logistic-chest-storage.png", 0, 0, 1, 1],
-    ["small-electric-pole.png", 0, 0, 1, 1],
-    ["medium-electric-pole.png", 0, 0, 1, 1],
-    ["big-electric-pole.png", 0, 0, 2, 2],
-    ["substation.png", 0, 0, 2, 2],
-    ["solar-panel.png", 0, 0, 3, 3],
-    ["accumulator.png", 0, 0, 2, 2],
-    ["steam-engine.png", 1, 2, 5, 3],
-    ["steam-turbine.png", 1, 2, 5, 3],
-    ["centrifuge.png", 0, 0, 3, 3],
-    ["nuclear-reactor.png", 0, 0, 5, 5],
-    ["offshore-pump.png", 1, 6, 2, 1],
-    ["pump.png", 1, 2, 2, 1],
-    ["straight-rail.png", 1, 0, 2, 2],
-    ["train-stop.png", 1, 0, 2, 2],
-    ["rail-chain-signal.png", 1, 0, 1, 1],
-    ["rail-signal.png", 1, 0, 1, 1],
-    ["rocket-silo.png", 0, 0, 9, 10],
-    ["radar.png", 0, 0, 3, 3],
-    ["stone-wall.png", 0, 0, 1, 1],
-    ["gate.png", 2, 2, 1, 1],
-    ["gun-turret.png", 0, 0, 2, 2],
-    ["flamethrower-turret.png", 0, 0, 2, 2],
-    ["laser-turret.png", 0, 0, 2, 2],
-    ["constant-combinator.png", 0, 0, 1, 1],
-    ["decider-combinator.png", 1, 2, 2, 1],
-    ["arithmetic-combinator.png", 1, 2, 2, 1],
-    ["programmable-speaker.png", 0, 0, 1, 1],
-    ["power-switch.png", 0, 0, 2, 2]]);
+var placeable = new Array();
+placeable.push(new Entity("assembling-machine-1.png", 1, 0, 3, 3));
+placeable.push(new Entity("assembling-machine-2.png", 1, 0, 3, 3));
+placeable.push(new Entity("assembling-machine-3.png", 1, 0, 3, 3));
+placeable.push(new Entity("chemical-plant.png", 1, 0, 3, 3));
+placeable.push(new Entity("oil-refinery.png", 1, 0, 5, 5));
+placeable.push(new Entity("beacon.png", 0, 0, 3, 3));
+placeable.push(new Entity("roboport.png", 0, 0, 4, 4));
+placeable.push(new Entity("lab.png", 0, 0, 3, 3));
+placeable.push(new Entity("transport-belt.png", 1, 0, 1, 1));
+placeable.push(new Entity("i-underground-belt.png", 1, 2, 1, 1, 1));
+placeable.push(new Entity("o-underground-belt.png", 1, 6, 1, 1, 1));
+placeable.push(new Entity("splitter.png", 1, 4, 2, 1));
+placeable.push(new Entity("fast-transport-belt.png", 1, 0, 1, 1));
+placeable.push(new Entity("i-fast-underground-belt.png", 1, 2, 1, 1, 1));
+placeable.push(new Entity("o-fast-underground-belt.png", 1, 6, 1, 1, 1));
+placeable.push(new Entity("fast-splitter.png", 1, 4, 2, 1));
+placeable.push(new Entity("express-transport-belt.png", 1, 0, 1, 1));
+placeable.push(new Entity("i-express-underground-belt.png", 1, 2, 1, 1, 1));
+placeable.push(new Entity("o-express-underground-belt.png", 1, 6, 1, 1, 1));
+placeable.push(new Entity("express-splitter.png", 1, 4, 2, 1));
+placeable.push(new Entity("burner-mining-drill.png", 1, 4, 2, 2));
+placeable.push(new Entity("electric-mining-drill.png", 1, 2, 3, 3));
+placeable.push(new Entity("pumpjack.png", 1, 0, 2, 2));
+placeable.push(new Entity("boiler.png", 1, 0, 3, 2));
+placeable.push(new Entity("heat-boiler.png", 1, 0, 3, 2));
+placeable.push(new Entity("heat-pipe.png", 0, 0, 1, 1));
+placeable.push(new Entity("pipe.png", 0, 0, 1, 1));
+placeable.push(new Entity("pipe-to-ground.png", 1, 2, 1, 1, 1));
+placeable.push(new Entity("stone-furnace.png", 0, 0, 2, 2));
+placeable.push(new Entity("steel-furnace.png", 0, 0, 2, 2));
+placeable.push(new Entity("electric-furnace.png", 0, 0, 3, 3));
+placeable.push(new Entity("burner-inserter.png", 1, 6, 1, 1, 1));
+placeable.push(new Entity("inserter.png", 1, 6, 1, 1, 1));
+placeable.push(new Entity("long-handed-inserter.png", 1, 6, 1, 1, 1));
+placeable.push(new Entity("fast-inserter.png", 1, 6, 1, 1, 1));
+placeable.push(new Entity("filter-inserter.png", 1, 6, 1, 1, 1));
+placeable.push(new Entity("stack-filter-inserter.png", 1, 6, 1, 1, 1));
+placeable.push(new Entity("stack-inserter.png", 1, 6, 1, 1, 1));
+placeable.push(new Entity("wooden-chest.png", 0, 0, 1, 1));
+placeable.push(new Entity("iron-chest.png", 0, 0, 1, 1));
+placeable.push(new Entity("steel-chest.png", 0, 0, 1, 1));
+placeable.push(new Entity("storage-tank.png", 1, 0, 3, 3));
+placeable.push(new Entity("logistic-chest-active-provider.png", 0, 0, 1, 1));
+placeable.push(new Entity("logistic-chest-passive-provider.png", 0, 0, 1, 1));
+placeable.push(new Entity("logistic-chest-requester.png", 0, 0, 1, 1));
+placeable.push(new Entity("logistic-chest-storage.png", 0, 0, 1, 1));
+placeable.push(new Entity("small-electric-pole.png", 0, 0, 1, 1));
+placeable.push(new Entity("medium-electric-pole.png", 0, 0, 1, 1));
+placeable.push(new Entity("big-electric-pole.png", 0, 0, 2, 2));
+placeable.push(new Entity("substation.png", 0, 0, 2, 2));
+placeable.push(new Entity("solar-panel.png", 0, 0, 3, 3));
+placeable.push(new Entity("accumulator.png", 0, 0, 2, 2));
+placeable.push(new Entity("steam-engine.png", 1, 2, 5, 3));
+placeable.push(new Entity("steam-turbine.png", 1, 2, 5, 3));
+placeable.push(new Entity("centrifuge.png", 0, 0, 3, 3));
+placeable.push(new Entity("nuclear-reactor.png", 0, 0, 5, 5));
+placeable.push(new Entity("offshore-pump.png", 1, 6, 2, 1));
+placeable.push(new Entity("pump.png", 1, 2, 2, 1));
+placeable.push(new Entity("straight-rail.png", 1, 0, 2, 2));
+placeable.push(new Entity("train-stop.png", 1, 0, 2, 2));
+placeable.push(new Entity("rail-chain-signal.png", 1, 0, 1, 1));
+placeable.push(new Entity("rail-signal.png", 1, 0, 1, 1));
+placeable.push(new Entity("rocket-silo.png", 0, 0, 9, 10));
+placeable.push(new Entity("radar.png", 0, 0, 3, 3));
+placeable.push(new Entity("stone-wall.png", 0, 0, 1, 1));
+placeable.push(new Entity("gate.png", 2, 2, 1, 1));
+placeable.push(new Entity("gun-turret.png", 0, 0, 2, 2));
+placeable.push(new Entity("flamethrower-turret.png", 0, 0, 2, 2));
+placeable.push(new Entity("laser-turret.png", 0, 0, 2, 2));
+placeable.push(new Entity("constant-combinator.png", 0, 0, 1, 1));
+placeable.push(new Entity("decider-combinator.png", 1, 2, 2, 1));
+placeable.push(new Entity("arithmetic-combinator.png", 1, 2, 2, 1));
+placeable.push(new Entity("programmable-speaker.png", 0, 0, 1, 1));
+placeable.push(new Entity("power-switch.png", 0, 0, 2, 2));
 
 function createJSON() {
     var jsonstring = '{"blueprint": {"icons": [{"signal": {"type": "item","name": "express-transport-belt"},"index": 1}],"entities": [';
@@ -331,6 +330,7 @@ function rotatePreview() {
         var dirStart = Number(preview.dataset.dirstart);
         var w = (Number(preview.style.width.slice(0, -2)) + 2) / 32;
         var h = (Number(preview.style.height.slice(0, -2)) + 2) / 32;
+        var mirrorflippedhorizontal = preview.dataset.mirrorflippedhorizontal;
 
         var low;
         var high;
@@ -370,7 +370,7 @@ function rotatePreview() {
         preview.setAttribute("data-direction", direction);
 
         //Handles usecases where entity should be horizontally flipped instead of rotated, like inserters. Rotation 4 = 270 degrees
-        if(rotation === 4){
+        if(rotation == 4 && mirrorflippedhorizontal == 1){
             preview.style.transform = 'initial';
             preview.style.transform = 'scale(-1,1)';
         }
@@ -472,7 +472,7 @@ function createItems() {
         item.setAttribute("data-direction", placeable[i].direction);
         item.setAttribute("data-w", placeable[i].width);
         item.setAttribute("data-h", placeable[i].height);
-        item.setAttribute("data-mirror-flipped-horizontal", (placeable[i].length === 6 && placeable[i][5] === 1));
+        item.setAttribute("data-mirror-flipped-horizontal", placeable[i].mirrorFlippedHorizontal);
         item.addEventListener('click', itemClick);
         insertImg(item, url);
         grid.appendChild(item);
@@ -599,12 +599,4 @@ function encode(json) {
     var base64 = Base64.encodeU(zip);
     var bstring = "0" + base64;
     return bstring;
-}
-
-function factorioEntityObjectArrayFromMultiArray(sourceArray){
-    var objectArray = new Array();
-    for(var i = 0; i < sourceArray.length; i++){
-        objectArray.push(new Entity(sourceArray[i][0],sourceArray[i][1],sourceArray[i][2],sourceArray[i][3],sourceArray[i][4]));
-    }
-    return objectArray;
 }
