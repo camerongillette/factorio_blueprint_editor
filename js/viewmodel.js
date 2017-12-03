@@ -8,7 +8,7 @@ window.FBE = window.FBE || {};
         bp = new Blueprint(),
         selectedItem,
         entityNamesThatDoNotRotate = /beacon|roboport|lab|heat_pipe|pipe$|furnace|chest|pole|substation|solar|accumulator|centrifuge|wall|rocket_silo|radar|turret|speaker|power_switch|reactor|lamp|land_mine/i,
-        defaultDirectionsByEntityName = [
+        entityDefaultDirections = [
             {
                 regex: /inserter|offshore_pump/i,
                 direction: 6
@@ -230,10 +230,10 @@ window.FBE = window.FBE || {};
         if (entity.type === 'input') { return 2; }
         if (entity.type === 'output') { return 6; }
 
-        var first = defaultDirectionsByEntityName
+        var first = entityDefaultDirections
             .filter(function(x){ return x.regex.test(entity.name);})[0];
 
-        return (first && first.direction) || 0;
+        return first ? first.direction : 0;
     }
 
 })(window.FBE);
