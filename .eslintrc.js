@@ -11,7 +11,7 @@ module.exports = {
         "curly": ["error"],
         "indent": ["error", 4],
         "indent": [ "error", 4 ],
-        "linebreak-style": [ "error", "windows" ],
+        "linebreak-style": 0,
         "semi": [ "error", "always" ],
         "eol-last": [ "error", "always" ],
         "eqeqeq": ["error"],
