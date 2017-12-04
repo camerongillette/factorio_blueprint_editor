@@ -5,10 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Factorio</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link rel="shortcut icon" href="icons/atomic-bomb.png">
+  <link rel="shortcut icon" href="vendor/factorio/icons/atomic-bomb.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -27,8 +24,8 @@
         <div id="menu" class="navbar__actions navbar__inner-container">
             <button onclick="savebtn()">Save Blueprint</button>
             <button onclick="bpbtn()">Generate Blueprint</button>
-            <button onclick="rotatePreview()">Rotate (R)</button>
-            <button onclick="clearGrid()">Clear Grid</button>
+            <button onclick="FBE.viewmodel.rotateSelectedItem()">Rotate (R)</button>
+            <button onclick="FBE.viewmodel.clear()">Clear Grid</button>
         </div>
         <div id="preview" class="navbar__preview navbar__inner-container preview__main"></div>     
         <div id="mousePreview" class="mouse__follow preview__copy mouse__preview"></div>       
@@ -41,9 +38,11 @@
         Factorio assets come directly from the Factorio game files, and are subject to all copyright policies associated with the game.
     </footer>
 
+    <script src="https://unpkg.com/tiny-emitter@2.0.2/dist/tinyemitter.js"></script>
     <script src="vendor/factorio-blueprint.min.js"></script>
-    <script src="vendor/pako.js"></script>
-    <script src="vendor/base64.js"></script>
+
+    <script src="js/view.js"></script>    
+    <script src="js/viewmodel.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
