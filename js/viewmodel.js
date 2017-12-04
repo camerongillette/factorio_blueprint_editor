@@ -121,7 +121,6 @@ window.FBE = window.FBE || {};
         var wasCleared = bp.removeEntityAtPosition(point);
 
         if (wasCleared) {
-            console.log('cleared blueprint position', point);
             events.emit('itemRemoved', { point: point });
         }
         return wasCleared;
@@ -138,7 +137,6 @@ window.FBE = window.FBE || {};
             if (entity.directionType) {
                 entity.directionType = selectedItem.type;
             }
-            console.log('added to blueprint:', selectedItem, 'at', point, entity);
             events.emit('itemPlaced', {
                 point: point,
                 item: Object.assign({}, selectedItem),
@@ -153,7 +151,6 @@ window.FBE = window.FBE || {};
 
     function rotateSelectedItem() {
         if (selectedItem && selectedItem.canRotate) {
-            console.log('rotating', selectedItem);
             selectedItem.direction = (selectedItem.direction + 2) % 8;
             pickPlacable(selectedItem);
         }
@@ -165,7 +162,6 @@ window.FBE = window.FBE || {};
 
     // TODO: this name feels wrong
     function pickPlacable(placeable) {
-        console.log('selected', placeable);
         selectedItem = placeable && Object.assign({}, placeable);
         events.emit('itemSelected', selectedItem);
     }

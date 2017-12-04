@@ -4,7 +4,7 @@ window.onload = function () {
         if (key === 'r'.charCodeAt(0)) {
             window.FBE.viewmodel.rotateSelectedItem();
         }
-        else if(key == 'q'.charCodeAt(0)){
+        else if (key === 'q'.charCodeAt(0)) {
             window.FBE.viewmodel.pickPlacable(null);
         }
     });
@@ -15,35 +15,40 @@ window.onload = function () {
 
     // https://stackoverflow.com/questions/1586330/access-get-directly-from-javascript#1586333
     var $_GET = GETfromUrl();
-    if($_GET.id != undefined){
+    if ($_GET.id !== undefined) {
         getFromMyJSON($_GET.id);
     }
 };
 
-function GETfromUrl(){
-    return location.search.substr(1).split("&").reduce(function(object,uriVal){
+function GETfromUrl() {
+    return location.search.substr(1).split("&").reduce(function (object, uriVal) {
         var entry = uriVal.split("=");
-        if(entry[1]){
+        if (entry[1]) {
             object[decodeURIComponent(entry[0])] = decodeURIComponent(entry[1]);
         }
         return object;
-    },{});
+    }, {});
 }
 
 // https://stackoverflow.com/questions/5999118/how-can-i-add-or-update-a-query-string-parameter
 function UpdateQueryString(key, value, url) {
-    if (!url) url = window.location.href;
+    if (!url) {
+        url = window.location.href;
+    }
+
     var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
         hash;
 
     if (re.test(url)) {
-        if (typeof value !== 'undefined' && value !== null)
+        if (typeof value !== 'undefined' && value !== null) {
             return url.replace(re, '$1' + key + "=" + value + '$2$3');
+        }
         else {
             hash = url.split('#');
             url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
-            if (typeof hash[1] !== 'undefined' && hash[1] !== null) 
+            if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
                 url += '#' + hash[1];
+            }
             return url;
         }
     }
@@ -52,25 +57,27 @@ function UpdateQueryString(key, value, url) {
             var separator = url.indexOf('?') !== -1 ? '&' : '?';
             hash = url.split('#');
             url = hash[0] + separator + key + '=' + value;
-            if (typeof hash[1] !== 'undefined' && hash[1] !== null) 
+            if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
                 url += '#' + hash[1];
+            }
             return url;
         }
-        else
+        else {
             return url;
+        }
     }
 }
 
-function sendToMyJSON(jsonstring){
+function sendToMyJSON(jsonstring) {
     var http = new XMLHttpRequest();
     var url = "https://api.myjson.com/bins";
     var params = jsonstring;
     http.open("POST", url, true);
     http.setRequestHeader("Content-Type", "application/json");
-    http.onreadystatechange = function() {
-        if(http.readyState == 4 && http.status == 201) {
+    http.onreadystatechange = function () {
+        if (http.readyState === 4 && http.status === 201) {
             var resp = JSON.parse(http.responseText);
-            var id = resp.uri.replace("https://api.myjson.com/bins/","");
+            var id = resp.uri.replace("https://api.myjson.com/bins/", "");
             // to show on some text field
             //alert(UpdateQueryString("id", id));
             document.getElementById("shareURI").style.display = "block";
@@ -81,13 +88,13 @@ function sendToMyJSON(jsonstring){
     http.send(params);
 }
 
-function getFromMyJSON(id){
+function getFromMyJSON(id) {
     var http = new XMLHttpRequest();
-    var url = "https://api.myjson.com/bins/"+id;
+    var url = "https://api.myjson.com/bins/" + id;
     http.open("GET", url, true);
     http.setRequestHeader("Content-Type", "application/json");
-    http.onreadystatechange = function() {
-        if(http.readyState == 4 && http.status == 200) {
+    http.onreadystatechange = function () {
+        if (http.readyState === 4 && http.status === 200) {
             var resp = JSON.parse(http.responseText);
             window.FBE.viewmodel.loadJSON(resp);
         }
@@ -97,13 +104,9 @@ function getFromMyJSON(id){
 
 window.savebtn = function () {
     var jsonstring = window.FBE.viewmodel.toJSON();
-    if (jsonstring == ""){
-        //to show on some text field
-        console.log("Grid is empty");
-    } else {
+    if (jsonstring !== "") {
         sendToMyJSON(jsonstring);
     }
-
 };
 
 window.closebtn = function () {
@@ -142,7 +145,7 @@ window.copybtn = function (ev) {
 window.bpbtn = function () {
     document.getElementById("blueprint").style.display = "block";
     var encoded = window.FBE.viewmodel.encode();
-    if (encoded){
+    if (encoded) {
         document.getElementById("bp").value = encoded;
         document.getElementById("bp").select();
     } else {

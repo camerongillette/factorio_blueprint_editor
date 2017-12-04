@@ -31,8 +31,8 @@ window.FBE = window.FBE || {};
         FBE.viewmodel.onItemPlaced(renderItemOnGrid);
         FBE.viewmodel.onItemRemoved(removeItemOnGrid);
         grid.addEventListener('mousedown', function (evt) {
-            isDrawing = evt.button == 0;
-            isClearing = evt.button == 2;
+            isDrawing = evt.button === 0;
+            isClearing = evt.button === 2;
             var point = getPointFromNode(evt.target);
             if (point) { tileMouseOver(point, evt); }
         });
@@ -57,7 +57,7 @@ window.FBE = window.FBE || {};
         tile.setAttribute('title', 'x: ' + point.x + ' y: ' + point.y);
         tile.setAttribute('data-point', point.x + ':' + point.y);
         tile.classList.add('tile');
-        if (point.x == 0 && point.y == 0) {
+        if (point.x === 0 && point.y === 0) {
             tile.classList.add('origin');
         }
         tile.addEventListener('mouseover', tileMouseOver.bind(null, point));
@@ -158,7 +158,7 @@ window.FBE = window.FBE || {};
             if (rotation < 0) { rotation += 8; }
 
             //Handles usecases where entity should be horizontally flipped instead of rotated, like inserters. Rotation 4 = 270 degrees
-            if (rotation == 4) {
+            if (rotation === 4) {
                 div.style.transform = 'initial';
                 div.style.transform = 'scale(-1,1)';
             } else {
